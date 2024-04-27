@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* form */
+form {
+    @apply flex flex-col
+}
+
+form label {
+    @apply flex flex-col
+}
+
+form label span {
+    @apply font-semibold pt-2 pb-1
+}
+
+form label input {
+    @apply border border-dark-gray placeholder:text-dark-gray px-3 py-2 rounded-md focus:outline-none
+}
+
+/* headers */
+
+h1 {
+    @apply text-3xl font-bold
+}

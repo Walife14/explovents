@@ -18,6 +18,7 @@ const config: Config = {
         'triary': '#90ee90',
         'triary-light': '#98fb98',
         'triary-dark': '#2e8b57',
+        'dark-gray': '#444444'
       }
     },
   },
