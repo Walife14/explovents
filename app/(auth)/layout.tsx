@@ -1,10 +1,9 @@
-import { ReactNode } from 'react'
 
 // components
 import AuthNavbar from './AuthNavbar';
 
 type Props = {
-    children: ReactNode;
+    children: React.ReactNode;
 }
 
 function AuthLayout({ children }: Props) {
