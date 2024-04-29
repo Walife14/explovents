@@ -1,21 +1,26 @@
+"use client"
+
+import { motion } from "framer-motion"
+
+// components
 import Button from "@components/Button/Button"
+import AnimatedBubble from "./AnimatedBubble"
 
 type Props = {}
 
 function Search({ }: Props) {
     return (
         <div className="w-5/6 mx-auto space-y-10 relative mt-40">
-            <div className="h-80 w-80 bg-triary absolute left-0 top-1/2 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-triary absolute left-[15%] top-0 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-triary absolute left-[15%] top-full -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-triary absolute left-[70%] top-0 -translate-x-1/2 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-triary absolute left-[50%] top-0 -translate-x-1/2 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-triary absolute left-[30%] top-0 -translate-x-1/2 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-secondary-light absolute left-[70%] top-full -translate-x-1/2 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-secondary-light absolute left-[50%] top-full -translate-x-1/2 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-secondary-light absolute left-[30%] top-full -translate-x-1/2 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-triary absolute right-[15%] top-0 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
-            <div className="h-80 w-80 bg-triary absolute right-0 top-1/2 -translate-y-1/2 -z-10 rounded-full blur-3xl mix-blend-screen"></div>
+            <AnimatedBubble color={'triary-light'} delay={0} position={'top-[5%] -left-[5%]'} />
+            <AnimatedBubble color={'triary-light'} delay={0} position={'-top-[5%] left-[10%]'} />
+            <AnimatedBubble color={'triary-light'} delay={0} position={'-top-[5%] left-[25%]'} />
+            <AnimatedBubble color={'triary-light'} delay={0} position={'top-[50%] left-[25%]'} />
+            <AnimatedBubble color={'triary-light'} delay={0} position={'-top-[5%] left-[40%]'} />
+            <AnimatedBubble color={'secondary-light'} delay={0} position={'top-[50%] left-[40%]'} />
+            <AnimatedBubble color={'triary-light'} delay={0} position={'-top-[5%] right-[25%]'} />
+            <AnimatedBubble color={'triary-light'} delay={0} position={'top-[50%] right-[25%]'} />
+            <AnimatedBubble color={'triary-light'} delay={0} position={'-top-[5%] right-[10%]'} />
+            <AnimatedBubble color={'triary-light'} delay={0} position={'top-[5%] -right-[5%]'} />
             <h1 className="text-3xl font-black text-center">We've got you covered</h1>
             <form>
                 <div className="flex gap-x-1 p-1 bg-triary-light text-2xl rounded-md">
