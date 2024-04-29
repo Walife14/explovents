@@ -11,11 +11,11 @@ function AnimatedBubble({ color, delay, position }: Props) {
         <motion.div
             className={`absolute w-[20%] aspect-square bg-${color} rounded-full mix-blend-screen -z-10 ${position} blur-2xl`}
             animate={{
-                x: [0, 0, -10, 10, 0],
-                y: [0, 10, 0, -10, 0],
+                x: [0, 0, -20, 20, 0],
+                y: [0, 20, 0, -20, 0],
             }}
             transition={{
-                duration: 6,
+                duration: 4,
                 ease: 'linear',
                 repeat: Infinity,
                 delay: delay,
