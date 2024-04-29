@@ -28,6 +28,18 @@ form label input {
     @apply border border-dark-gray placeholder:text-dark-gray px-3 py-2 rounded-md focus:outline-none
 }
 
+input {
+    @apply focus:outline-none
+}
+
+/* remove default input calendar icon */
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
 /* headers */
 
 h1 {
