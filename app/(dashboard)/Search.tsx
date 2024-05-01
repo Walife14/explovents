@@ -25,7 +25,7 @@ function Search({ }: Props) {
     const handleSubmit = (e: React.FormEvent, country: string, city: string, selectedDate: any) => {
         e.preventDefault()
 
-        console.log(country, city, date)
+        console.log(country, city, selectedDate)
     }
 
     return (

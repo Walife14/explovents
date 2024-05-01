@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      listStyleType: {
+        square: 'square'
+      },
       colors: {
         'primary': '#ff6f61',
         'primary-light': '#ffa07a',
@@ -18,7 +21,8 @@ const config: Config = {
         'triary': '#90ee90',
         'triary-light': '#98fb98',
         'triary-dark': '#2e8b57',
-        'dark-gray': '#444444'
+        'dark-gray': '#444444',
+        'charcoal': '#181818'
       }
     },
   },

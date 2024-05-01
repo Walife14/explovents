@@ -45,3 +45,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 h1 {
     @apply text-3xl font-bold
 }
+
+/* footer */
+
+footer {
+    @apply bg-charcoal
+}
