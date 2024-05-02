@@ -19,7 +19,6 @@ function Navbar({ }: Props) {
     useEffect(() => {
         const handleScroll = () => {
             setIsAtTop(window.scrollY === 0)
-            console.log(isAtTop)
         }
 
         window.addEventListener('scroll', handleScroll)
@@ -30,7 +29,7 @@ function Navbar({ }: Props) {
     }, [])
 
     return (
-        <header className={`mb-8 w-full pt-10 fixed z-20 ${!isAtTop ? 'bg-white/80' : ''} pb-4 transition-colors duration-300`}>
+        <header className={`mb-8 w-full pt-10 fixed z-20 ${!isAtTop ? 'bg-white/80' : ''} pb-4 transition-colors duration-300`} id="header">
             <div className='w-5/6 mx-auto flex justify-between'>
                 <div className={`${bowlby.className} text-primary text-3xl`} data-testid="logo">Explovents</div>
                 <nav>
