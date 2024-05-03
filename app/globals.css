@@ -24,13 +24,17 @@ form label span {
     @apply font-semibold pt-2 pb-1
 }
 
-form label input {
+form label input, form label textarea {
     @apply border border-dark-gray placeholder:text-dark-gray px-3 py-2 rounded-md focus:outline-none
 }
 
 input {
     @apply focus:outline-none
 }
+
+/* textarea {
+    @apply rounded-md px-3 py-2
+} */
 
 /* remove default input calendar icon */
 
