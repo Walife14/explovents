@@ -3,7 +3,7 @@
 import CountryCityDates from '@/app/components/CountryCityDates/CountryCityDates'
 
 // components
-import EventCard from './EventCard'
+import EventCard from '@components/EventCard/EventCard'
 import Button from '@components/Button/Button'
 
 type Props = {}
