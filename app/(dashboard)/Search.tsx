@@ -14,7 +14,7 @@ function Search({ }: Props) {
     }
 
     return (
-        <div className="w-5/6 mx-auto space-y-10 relative mt-40">
+        <div className="w-5/6 mx-auto space-y-10 relative mt-8">
             <AnimatedBubble color={1} delay={0} position={'top-[5%] -left-[5%]'} />
             <AnimatedBubble color={1} delay={0.25} position={'-top-[5%] left-[10%]'} />
             <AnimatedBubble color={1} delay={1} position={'-top-[5%] left-[25%]'} />
