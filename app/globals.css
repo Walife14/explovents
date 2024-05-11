@@ -55,3 +55,33 @@ h1 {
 footer {
     @apply bg-charcoal
 }
+
+/* calendar styling */
+
+#calendar_container .react-calendar {
+    @apply border rounded-md shadow-md shadow-triary-light p-2 text-dark-gray
+}
+
+#calendar_container .react-calendar .react-calendar__navigation {
+    @apply p-2 text-right space-x-2
+}
+
+.react-calendar__month-view__weekdays {
+    @apply text-center
+}
+
+.react-calendar__month-view__weekdays abbr {
+    @apply font-bold no-underline
+}
+
+.react-calendar__month-view__days button {
+    @apply py-2
+}
+
+.react-calendar__month-view__days button:disabled {
+    @apply line-through
+}
+
+.react-calendar__tile--active {
+    @apply text-white font-bold bg-primary
+}
