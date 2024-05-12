@@ -30,7 +30,7 @@ function ForgotPassword({ }: Props) {
     }
 
     return (
-        <div className="flex flex-col gap-y-4 w-2/5 mx-auto relative">
+        <main className="flex flex-col gap-y-4 w-2/5 mx-auto relative">
             <BackBtn />
             <div>
                 <div className="flex justify-center">
@@ -66,7 +66,7 @@ function ForgotPassword({ }: Props) {
                     </div>
                 </form>
             </div>
-        </div>
+        </main>
     )
 }
 
