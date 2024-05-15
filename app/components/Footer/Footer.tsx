@@ -42,13 +42,13 @@ function Footer({ }: Props) {
                 </div>
                 <div className='flex justify-end gap-x-4'>
                     <Link href="#">
-                        <Image src={Ico_facebook} height={24} alt="Follow us on Facebook" />
+                        <Image src={Ico_facebook} height={24} alt="Follow us on Facebook" priority={false} />
                     </Link>
                     <Link href="#">
-                        <Image src={Ico_instagram} height={24} alt="Follow us on Instagram" />
+                        <Image src={Ico_instagram} height={24} alt="Follow us on Instagram" priority={false} />
                     </Link>
                     <Link href="#">
-                        <Image src={Ico_x} height={24} alt="Follow us on X" />
+                        <Image src={Ico_x} height={24} alt="Follow us on X" priority={false} />
                     </Link>
                 </div>
                 <div className='border-t border-white p-4'>

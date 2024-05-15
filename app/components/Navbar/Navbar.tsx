@@ -1,10 +1,13 @@
 "use client"
 
+import { usePathname, useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
+import { useEffect, useState } from 'react';
+import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
 
 // fonts
 import { Bowlby_One_SC } from 'next/font/google'
-import { usePathname } from 'next/navigation';
 
 const bowlby = Bowlby_One_SC({
     subsets: ["latin"],
@@ -14,16 +17,54 @@ const bowlby = Bowlby_One_SC({
 type Props = {}
 
 function Navbar({ }: Props) {
+    const router = useRouter()
     const pathname = usePathname()
+    const supabase = createClient()
+    const [user, setUser] = useState<User | null>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isMyAccountNavOpen, setIsMyAccountNavOpen] = useState<boolean>(false)
 
-    const name = 'Lucas'
+    const handleLogout = async () => {
+        const { error } = await supabase.auth.signOut()
+
+        router.push('/')
+
+        if (error) {
+            console.error(error)
+        }
+    }
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const { data, error } = await supabase.auth.getUser()
+                if (data?.user) {
+                    return data.user
+                }
+            } catch (error) {
+                // console.error('error fetching user: ', error)
+            }
+        }
+
+        fetchUser()
+            .then((data) => {
+                setUser(data)
+                setIsLoading(false)
+            })
+
+        if (isMyAccountNavOpen) setIsMyAccountNavOpen(false)
+    }, [pathname])
 
     return (
-        <header>
+        <header className='z-50'>
             <nav>
                 <div className='flex items-end justify-between w-5/6 mx-auto py-8 flex-wrap'>
                     <Link href="/" className={`${bowlby.className} text-primary text-3xl`} data-testid="logo">Explovents</Link>
-                    <span className='text-dark-gray'>What&apos;s up, {name}!</span>
+                    {user && (
+                        <span className='text-dark-gray'>What&apos;s up, {user.email}!</span>
+                    )}
+
+
                     <div className='basis-full flex justify-between py-4 font-semibold'>
                         <Link className={`flex items-center gap-x-2 rounded-full py-2 px-3 hover:ring-2 hover:ring-secondary group ${pathname === '/explore' ? 'ring-2 ring-secondary' : ''}`} href="/explore">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor" className={`w-6 h-6 group-hover:fill-yellow-400 group-hover:stroke-yellow-400 ${pathname === '/explore' ? 'fill-yellow-400 stroke-yellow-400' : ''}`}>
@@ -32,16 +73,42 @@ function Navbar({ }: Props) {
                             Events
                         </Link>
                         <ul className='flex items-center gap-x-4'>
-                            <li>
-                                <Link href="/login">
-                                    Login
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/register">
-                                    Register
-                                </Link>
-                            </li>
+                            {!isLoading && (
+                                <>
+                                    {!user ? (
+                                        <>
+                                            <li>
+                                                <Link href="/login">
+                                                    Login
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href="/register">
+                                                    Register
+                                                </Link>
+                                            </li>
+                                        </>
+                                    ) : (
+                                        <li>
+                                            <div className='relative'>
+                                                <button onClick={() => setIsMyAccountNavOpen(!isMyAccountNavOpen)} className={`${isMyAccountNavOpen && 'text-primary'} transition-colors duration-100`}>
+                                                    My Account
+                                                </button>
+                                                {isMyAccountNavOpen && (
+                                                    <div className='absolute flex flex-col gap-y-4 w-max right-0 mt-1 rounded-md p-4 bg-white border shadow-md'>
+                                                        <Link href="/myaccount">
+                                                            Manage Account
+                                                        </Link>
+                                                        <button onClick={handleLogout}>
+                                                            Logout
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </li>
+                                    )}
+                                </>
+                            )}
                         </ul>
                     </div>
                 </div>
