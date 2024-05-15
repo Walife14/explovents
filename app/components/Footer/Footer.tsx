@@ -20,9 +20,9 @@ type Props = {}
 function Footer({ }: Props) {
     return (
         <footer>
-            <div className='w-5/6 mx-auto my-20 text-white flex flex-col gap-y-4'>
-                <div className="grid grid-cols-2">
-                    <div className='flex flex-col gap-y-4'>
+            <div className='mx-4 md:w-5/6 md:mx-auto my-20 text-white flex flex-col gap-y-4'>
+                <div className="grid md:grid-cols-2 gap-y-4">
+                    <div className='flex flex-col gap-y-4 border-l pl-2 border-triary md:border-none md:p-0'>
                         <Link className={`${bowlby.className} text-primary text-3xl`} href="/">Explovents</Link>
                         <ul className='text-xl font-normal space-y-2'>
                             <li>Boat parties</li>
@@ -31,7 +31,7 @@ function Footer({ }: Props) {
                             <li>Other events</li>
                         </ul>
                     </div>
-                    <div className='flex flex-col gap-y-4'>
+                    <div className='flex flex-col gap-y-4 border-l pl-2 border-triary md:border-none md:p-0'>
                         <h2 className='text-2xl'>Why <span className={`${bowlby.className} text-primary`}>Explovents</span>?</h2>
                         <ul className='space-y-2 text-xl'>
                             <li><span className='font-semibold'>Hot Events:</span> Access exclusive events.</li>
