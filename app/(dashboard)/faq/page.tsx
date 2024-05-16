@@ -44,7 +44,7 @@ function FAQ({ }: Props) {
                 <FAQItem title="How do I find out about upcoming events in my area?" text="To discover upcoming events in your area, simply visit Explovents and browse our wide selection of listings. Use our intuitive search function to find events tailored to your preferences, whether it's a boat party in Ayia Napa or a beach bash in Zante. With Explovents, exploring local events has never been easier!" />
                 <FAQItem title="Is there a rewards system for frequent users of the platform?" text="At the moment, Explovents does not have a rewards system for frequent users. However, we are continuously exploring ways to enhance the user experience and may consider implementing such a system in the future. Stay tuned for updates on any new features or rewards programs!" />
                 <div className='mt-20 w-3/4 mx-auto'>
-                    <h3 className='text-2xl font-bold mb-4'>Require additional assistance? Don't hesitate to fill out this form.</h3>
+                    <h3 className='text-2xl font-bold mb-4'>Require additional assistance? Don&apos;t hesitate to fill out this form.</h3>
                     <div className='grid grid-cols-2 gap-x-4'>
                         <form className='flex-1' onSubmit={(e) => handleSubmit(e, email, message)} ref={formRef}>
                             <label>

@@ -25,7 +25,7 @@ function Verify({ }: Props) {
             clearInterval(intervalTimer)
             clearTimeout(timeoutTimer)
         }
-    }, [timer])
+    }, [timer, router])
 
     return (
         <main className="flex flex-col gap-y-4 w-2/5 mx-auto relative">

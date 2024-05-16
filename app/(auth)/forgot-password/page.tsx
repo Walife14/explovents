@@ -42,7 +42,7 @@ function ForgotPassword({ }: Props) {
                 </div>
 
                 <h1 className="text-3xl font-bold text-center text-primary mt-8">Forgot your password?</h1>
-                <p className="text-dark-gray py-8">Uh-oh! Looks like you've forgotten your password. No worries! Just enter your email below, and we'll send you a link with instructions on how to reset it.</p>
+                <p className="text-dark-gray py-8">Uh-oh! Looks like you&apos;ve forgotten your password. No worries! Just enter your email below, and we&apos;ll send you a link with instructions on how to reset it.</p>
 
                 <form onSubmit={(e) => handleSubmit(e, email)}>
                     <label>

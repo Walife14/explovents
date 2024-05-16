@@ -34,7 +34,7 @@ function Search({ }: Props) {
                 </>
             )}
 
-            <h1 className="text-3xl font-black text-center">We've got you covered</h1>
+            <h1 className="text-3xl font-black text-center">We&apos;ve got you covered</h1>
 
             <CountryCityDates handleSubmit={handleSubmit} />
         </div>

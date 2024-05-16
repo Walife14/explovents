@@ -5,7 +5,6 @@ import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
-import { revalidatePath } from 'next/cache';
 
 // fonts
 import { Bowlby_One_SC } from 'next/font/google'
@@ -19,7 +18,6 @@ const bowlby = Bowlby_One_SC({
 type Props = {}
 
 function Navbar({ }: Props) {
-    const router = useRouter()
     const pathname = usePathname()
     const supabase = createClient()
     const [user, setUser] = useState<User | null>(null)
@@ -55,7 +53,7 @@ function Navbar({ }: Props) {
             })
 
         if (isMyAccountNavOpen) setIsMyAccountNavOpen(false)
-    }, [pathname])
+    }, [pathname, isMyAccountNavOpen, supabase])
 
     return (
         <header className='z-50'>
