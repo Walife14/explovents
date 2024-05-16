@@ -35,3 +35,13 @@ export async function signup(data: { email: string, password: string, confirmPas
     revalidatePath('/')
     redirect('/verify')
 }
+
+export async function logout() {
+    const supabase = createClient()
+
+    const { error } = await supabase.auth.signOut()
+
+    if (error) {
+        console.error(error)
+    }
+}

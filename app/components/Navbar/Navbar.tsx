@@ -5,9 +5,11 @@ import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
+import { revalidatePath } from 'next/cache';
 
 // fonts
 import { Bowlby_One_SC } from 'next/font/google'
+import { logout } from '@/app/(auth)/actions';
 
 const bowlby = Bowlby_One_SC({
     subsets: ["latin"],
@@ -22,14 +24,14 @@ function Navbar({ }: Props) {
     const supabase = createClient()
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [isMyAccountNavOpen, setIsMyAccountNavOpen] = useState<boolean>(false)
+    const [isMyAccountNavOpen, setIsMyAccountNavOpen] = useState<boolean>(true)
 
     const handleLogout = async () => {
-        const { error } = await supabase.auth.signOut()
+        try {
+            await logout()
 
-        router.push('/')
-
-        if (error) {
+            location.reload()
+        } catch (error) {
             console.error(error)
         }
     }
@@ -58,10 +60,11 @@ function Navbar({ }: Props) {
     return (
         <header className='z-50'>
             <nav>
-                <div className='flex items-end justify-between w-5/6 mx-auto py-8 flex-wrap'>
+                <div className='flex items-end justify-between mx-4 md:w-5/6 md:mx-auto py-8 flex-wrap'>
                     <Link href="/" className={`${bowlby.className} text-primary text-3xl`} data-testid="logo">Explovents</Link>
+                    {/* <div> */}
                     {user && (
-                        <span className='text-dark-gray'>What&apos;s up, {user.email}!</span>
+                        <span className='hidden md:inline-block text-dark-gray'>What&apos;s up, {user.email}!</span>
                     )}
 
 
@@ -94,16 +97,15 @@ function Navbar({ }: Props) {
                                                 <button onClick={() => setIsMyAccountNavOpen(!isMyAccountNavOpen)} className={`${isMyAccountNavOpen && 'text-primary'} transition-colors duration-100`}>
                                                     My Account
                                                 </button>
-                                                {isMyAccountNavOpen && (
-                                                    <div className='absolute flex flex-col gap-y-4 w-max right-0 mt-1 rounded-md p-4 bg-white border shadow-md'>
-                                                        <Link href="/myaccount">
-                                                            Manage Account
-                                                        </Link>
-                                                        <button onClick={handleLogout}>
-                                                            Logout
-                                                        </button>
-                                                    </div>
-                                                )}
+                                                <div className={`absolute flex flex-col w-screen -mr-4 md:w-max right-0 mt-1 rounded-md p-4 bg-white border shadow-md text-center gap-y-4 ${!isMyAccountNavOpen && 'hidden'}`}>
+                                                    <span className='md:hidden text-dark-gray'>What&apos;s up, {user.email}!</span>
+                                                    <Link href="/myaccount">
+                                                        Manage Account
+                                                    </Link>
+                                                    <button onClick={handleLogout}>
+                                                        Logout
+                                                    </button>
+                                                </div>
                                             </div>
                                         </li>
                                     )}
@@ -111,6 +113,7 @@ function Navbar({ }: Props) {
                             )}
                         </ul>
                     </div>
+                    {/* </div> */}
                 </div>
             </nav>
         </header>
