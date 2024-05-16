@@ -23,16 +23,17 @@ function Explore({ }: Props) {
 
     return (
         <main>
-            <div className={`w-5/6 mx-auto`}>
+            <div className={`mx-4 md:w-5/6 md:mx-auto`}>
                 <CountryCityDates handleSubmit={handleSubmit} btnText="Update" includeEventTypes={true} />
                 <h2 className='text-lg font-bold text-center'>
-                    Here are the events we found in <span className='text-primary underline'>Ayia Napa</span>, <span className='text-primary underline'>Cyprus</span> between the dates <span className='text-primary underline'>27 May - 29 May</span>
+                    Events in <span className='text-primary underline'>Ayia Napa</span>, <span className='text-primary underline'>Cyprus</span> within <span className='text-primary underline'>27 May - 29 May</span>
                 </h2>
                 {[1, 2, 3, 4].map((index) => (
                     <EventCard
                         key={index}
                         title={'Fantasy Boat Party'}
                         description={'Join us aboard the Fantasy Boat Party for an electrifying voyage filled with music, dancing, and endless drinks against the backdrop of the open sea.'} price={60}
+                        darkbg={index % 2 === 0}
                     />
                 ))}
                 <div className='flex justify-center my-8'>

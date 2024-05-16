@@ -96,7 +96,7 @@ function CountryCityDates({ handleSubmit, btnText, includeEventTypes }: Props) {
                 </div>
             </div>
             {includeEventTypes && (
-                <div className='flex text-lg gap-x-4 text-dark-gray mt-4'>
+                <div className='flex flex-wrap md:flex-nowrap gap-x-4 gap-y-2 text-dark-gray mt-4'>
                     {options.map((option) => (
                         <label key={option.value}>
                             <input
@@ -107,7 +107,7 @@ function CountryCityDates({ handleSubmit, btnText, includeEventTypes }: Props) {
                                 onChange={() => { }}
                                 className='hidden peer'
                             />
-                            <span className='select-none cursor-pointer py-2 px-8 rounded-full border border-dark-gray peer-checked:border-transparent peer-checked:bg-secondary peer-checked:text-white'>{option.text}</span>
+                            <span className='select-none text-center md:text-lg cursor-pointer py-1 px-2 md:py-2 md:px-8 rounded-full border border-dark-gray peer-checked:border-transparent peer-checked:bg-secondary peer-checked:text-white'>{option.text}</span>
                         </label>
                     ))}
                 </div>
