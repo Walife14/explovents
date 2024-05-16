@@ -22,13 +22,12 @@ function Navbar({ }: Props) {
     const supabase = createClient()
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [isMyAccountNavOpen, setIsMyAccountNavOpen] = useState<boolean>(true)
+    const [isMyAccountNavOpen, setIsMyAccountNavOpen] = useState<boolean>(false)
 
     const handleLogout = async () => {
         try {
             await logout()
-
-            location.reload()
+            window.location.reload()
         } catch (error) {
             console.error(error)
         }
@@ -53,7 +52,7 @@ function Navbar({ }: Props) {
             })
 
         if (isMyAccountNavOpen) setIsMyAccountNavOpen(false)
-    }, [pathname, isMyAccountNavOpen, supabase])
+    }, [])
 
     return (
         <header className='z-50'>
