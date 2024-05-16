@@ -27,7 +27,7 @@ function Register({ }: Props) {
         <div>
             <AuthForm isRegister={true} handleSubmit={handleSubmit} />
             {error}
-            <div className="w-3/5 mx-auto">
+            <div className="mx-4 md:w-3/5 md:mx-auto">
                 <p>Already have an account? <Link href="/login" className="font-bold underline">Click here to login</Link>.</p>
             </div>
         </div>

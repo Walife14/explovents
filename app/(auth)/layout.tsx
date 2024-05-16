@@ -17,7 +17,7 @@ async function AuthLayout({ children }: Props) {
     }
 
     return (
-        <div className="w-4/6 mx-auto mt-20">
+        <div className="md:w-4/6 md:mx-auto mt-4 md:mt-20">
             <AuthNavbar />
             {children}
         </div>

@@ -30,7 +30,7 @@ function ForgotPassword({ }: Props) {
     }
 
     return (
-        <main className="flex flex-col gap-y-4 w-2/5 mx-auto relative">
+        <main className="flex flex-col gap-y-4 mx-4 md:w-2/5 md:mx-auto mt-8 md:mt-0 relative">
             <BackBtn />
             <div>
                 <div className="flex justify-center">
@@ -41,7 +41,7 @@ function ForgotPassword({ }: Props) {
                     </svg>
                 </div>
 
-                <h1 className="text-3xl font-bold text-center text-primary mt-8">Forgot your password?</h1>
+                <h1 className="text-lg md:text-3xl font-bold text-center text-primary mt-8">Forgot your password?</h1>
                 <p className="text-dark-gray py-8">Uh-oh! Looks like you&apos;ve forgotten your password. No worries! Just enter your email below, and we&apos;ll send you a link with instructions on how to reset it.</p>
 
                 <form onSubmit={(e) => handleSubmit(e, email)}>

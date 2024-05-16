@@ -11,7 +11,7 @@ type Props = {}
 
 function AuthNavbar({ }: Props) {
     return (
-        <header className='mb-8'>
+        <header className='mb-2 md:mb-8 mx-4 md:mx-0'>
             <div className={`${bowlby.className} text-primary text-3xl`} data-testid="logo">Explovents</div>
         </header>
     )

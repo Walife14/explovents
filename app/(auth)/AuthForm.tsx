@@ -23,10 +23,10 @@ function AuthForm({ isRegister, handleSubmit }: Props) {
 
     return (
         <>
-            <div className="bg-gradient-to-r from-teal-400 to-yellow-200 rounded-3xl">
-                <h1 className="text-white py-14 w-10/12 ml-auto">{isRegister ? 'Register' : 'Login'}</h1>
+            <div className="bg-gradient-to-r from-teal-400 to-yellow-200 md:rounded-3xl">
+                <h1 className="text-white py-6 md:py-14 w-10/12 ml-auto">{isRegister ? 'Register' : 'Login'}</h1>
             </div>
-            <div className="w-1/4 mx-auto mt-4">
+            <div className="mx-4 md:w-1/4 md:mx-auto mt-4">
                 <form onSubmit={(e) => handleSubmit(e, email, password, confirmPassword)}>
                     <label>
                         <span>Email Address</span>
@@ -60,7 +60,7 @@ function AuthForm({ isRegister, handleSubmit }: Props) {
                             />
                         </label>
                     )}
-                    <div className="w-4/6 mx-auto">
+                    <div className="w-full md:w-4/6 mx-auto">
                         <Button
                             type="submit"
                             text={isRegister ? 'Register' : 'Login'}
@@ -68,7 +68,7 @@ function AuthForm({ isRegister, handleSubmit }: Props) {
                     </div>
                 </form>
             </div>
-            <div className="w-3/5 mx-auto mb-4 space-y-4">
+            <div className="mx-4 md:w-3/5 md:mx-auto mb-4 space-y-4">
                 <div className="text-dark-gray flex">
                     <div className="flex-1 my-auto h-[1px] bg-dark-gray"></div>
                     <span className="flex-none px-1">
@@ -78,7 +78,7 @@ function AuthForm({ isRegister, handleSubmit }: Props) {
                 </div>
 
                 <div className="flex justify-center items-center gap-x-4">
-                    <div className="p-8 border border-dark-gray rounded-md">
+                    <div className="p-4 md:p-8 border border-dark-gray rounded-md">
                         <Image
                             src={Facebook_logo}
                             width={32}
@@ -87,7 +87,7 @@ function AuthForm({ isRegister, handleSubmit }: Props) {
                             alt="Facebook logo"
                         />
                     </div>
-                    <div className="p-8 border border-dark-gray rounded-md">
+                    <div className="p-4 md:p-8 border border-dark-gray rounded-md">
                         <Image
                             src={Google_logo}
                             width={32}
@@ -96,7 +96,7 @@ function AuthForm({ isRegister, handleSubmit }: Props) {
                             alt="Facebook logo"
                         />
                     </div>
-                    <div className="p-8 border border-dark-gray rounded-md h-auto">
+                    <div className="p-4 md:p-8 border border-dark-gray rounded-md h-auto">
                         <Image
                             src={Apple_logo}
                             width={32}

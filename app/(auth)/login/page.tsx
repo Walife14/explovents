@@ -27,7 +27,7 @@ function Login({ }: Props) {
         <div>
             <AuthForm isRegister={false} handleSubmit={handleSubmit} data-testid="auth-form" />
             {error}
-            <div className="w-3/5 mx-auto">
+            <div className="mx-4 md:w-3/5 md:mx-auto">
                 <p>Don&#39;t have an account? <Link href="/register" className="font-bold underline">Click here to register</Link>.</p>
                 <p>Forgot your password? <Link href="/forgot-password" className="font-bold underline">Click here</Link>.</p>
             </div>
