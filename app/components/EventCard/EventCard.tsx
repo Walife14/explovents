@@ -9,11 +9,12 @@ type Props = {
     description: string;
     price: number;
     darkbg?: boolean;
+    url: string;
 }
 
-function EventCard({ title, description, price, darkbg }: Props) {
+function EventCard({ title, description, price, darkbg, url }: Props) {
     return (
-        <Link href="#">
+        <Link href={url}>
             <div className={`grid grid-cols-12 gap-x-2 my-8 ${darkbg && 'bg-gray-100'}`}>
                 <div className='col-span-4 md:col-span-3 relative'>
                     <Image className='h-full object-cover' src={IMG_Boatparty} alt={`${title}`} quality={100} priority />

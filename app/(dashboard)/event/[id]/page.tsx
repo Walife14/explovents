@@ -46,8 +46,8 @@ function Event({ params }: Props) {
     }
 
     return (
-        <main className='w-5/6 mx-auto'>
-            <div className='mx-auto relative h-60 flex items-center overflow-hidden'>
+        <main className='mx-4 md:w-5/6 md:mx-auto'>
+            <div className='mx-auto relative h-32 md:h-60 flex items-center overflow-hidden'>
                 <Image
                     className='bg-cover w-full h-auto'
                     src={eventObj.headerImgUrl}
@@ -57,8 +57,8 @@ function Event({ params }: Props) {
                 />
             </div>
             <h1 className='text-primary my-8'>{eventObj.title.toUpperCase()}</h1>
-            <div className='grid grid-cols-2 gap-x-8 my-20'>
-                <div className='flex justify-center items-center' id="calendar_container">
+            <div className='grid grid-cols-2 gap-x-8 md:my-20'>
+                <div className='col-span-2 md:col-span-1 flex justify-center items-center' id="calendar_container">
                     <Calendar
                         minDate={new Date()}
                         onClickDay={(e) => setDate(e)}
@@ -66,7 +66,7 @@ function Event({ params }: Props) {
                         maxDetail='month'
                     />
                 </div>
-                <div>
+                <div className='col-span-2 md:col-span-1 mt-8'>
                     <h2 className='text-3xl font-bold text-center mb-10'>
                         <span className=''>Currently selected</span>
                         <br />
@@ -94,7 +94,7 @@ function Event({ params }: Props) {
             </div>
             <div className='my-20'>
                 <h2 className='text-3xl text-primary font-bold'>Gallery</h2>
-                <div className='grid grid-cols-4 gap-x-8'>
+                <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-8'>
                     {tempImageArray.map((img, index) => (
                         <div key={index} className='aspect-square bg-blue-500 rounded-md overflow-hidden relative'>
                             <Image

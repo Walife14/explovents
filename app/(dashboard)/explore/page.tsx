@@ -34,6 +34,7 @@ function Explore({ }: Props) {
                         title={'Fantasy Boat Party'}
                         description={'Join us aboard the Fantasy Boat Party for an electrifying voyage filled with music, dancing, and endless drinks against the backdrop of the open sea.'} price={60}
                         darkbg={index % 2 === 0}
+                        url={'/event/1'}
                     />
                 ))}
                 <div className='flex justify-center my-8'>
