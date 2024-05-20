@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 }
 
 function ImageGallery({ isOpen, onClose, images }: Props) {
-    const [isViewOne, setIsViewOne] = useState<boolean>(false)
+    const [isViewOne, setIsViewOne] = useState<boolean>(true)
     const [page, setPage] = useState<number>(0)
 
     const toggleImage = (direction: string) => {
@@ -42,11 +42,22 @@ function ImageGallery({ isOpen, onClose, images }: Props) {
         return page === index || page + 1 === index || page + 2 === index || page + 3 === index;
     };
 
+    useEffect(() => {
+        // disable scrolling on opening gallery
+        if (isOpen) {
+            document.body.classList.add('overflow-hidden')
+        }
+
+        return () => {
+            document.body.classList.remove('overflow-hidden')
+        }
+    }, [isOpen])
+
     if (!isOpen) return null
     return (
-        <div className="bg-white/90 fixed left-0 top-0 w-full h-screen z-[51] p-10 flex">
-            <div className="flex flex-1">
-                <div className="basis-16"></div>
+        <div className="bg-white/[95%] fixed left-0 top-0 w-full h-[100dvh] z-[51] md:p-10 flex">
+            <div className="flex flex-col-reverse md:flex-row flex-1">
+                <div className="md:basis-16"></div>
                 <div className="flex-1 flex flex-col">
                     {/* image display */}
                     <div className={`flex-1 overflow-hidden relative ${isViewOne ? '' : 'grid grid-cols-2 grid-rows-2 gap-2'}`}>
@@ -54,14 +65,13 @@ function ImageGallery({ isOpen, onClose, images }: Props) {
                         {/* viewing 1 at a time */}
                         {isViewOne && (
                             <>
-                                {images.map((img, index) => (
+                                {images.map((img: HTMLImageElement, index: number) => (
                                     <Image
                                         key={index}
                                         className={`object-contain w-full h-full ${page === index ? '' : 'hidden'}`}
                                         src={img}
                                         alt="boat party with drinks"
                                         quality={100}
-                                        priority
                                         loading="lazy"
                                     />
                                 ))}
@@ -71,7 +81,7 @@ function ImageGallery({ isOpen, onClose, images }: Props) {
                         {/* viewing 4 at a time */}
                         {!isViewOne && (
                             <>
-                                {images.map((img, index) => (
+                                {images.map((img: HTMLImageElement, index: number) => (
                                     <div key={index} className={`${isVisible(index) ? '' : 'hidden'} relative`}>
                                         <Image
                                             className="object-contain w-full h-full select-none"
@@ -115,7 +125,7 @@ function ImageGallery({ isOpen, onClose, images }: Props) {
                 </div>
 
                 {/* close button */}
-                <div className="basis-16 flex justify-center items-start">
+                <div className="basis-16 flex justify-end md:justify-center items-start p-2 md:p-0">
                     <button onClick={onClose} className="bg-black/40 rounded-full" aria-label="Close gallery">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor" className="w-12 h-12 stroke-white">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
