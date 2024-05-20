@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
 
@@ -33,24 +33,21 @@ function Navbar({ }: Props) {
         }
     }
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const { data, error } = await supabase.auth.getUser()
-                if (data?.user) {
-                    return data.user
-                }
-            } catch (error) {
-                // console.error('error fetching user: ', error)
+    const fetchUser = useCallback(async () => {
+        try {
+            const { data, error } = await supabase.auth.getUser()
+            if (data?.user) {
+                setUser(data.user)
             }
+        } catch (error) {
+            // console.error('error fetching user: ', error)
+        } finally {
+            setIsLoading(false)
         }
+    }, [])
 
+    useEffect(() => {
         fetchUser()
-            .then((data) => {
-                setUser(data)
-                setIsLoading(false)
-            })
-
         if (isMyAccountNavOpen) setIsMyAccountNavOpen(false)
     }, [])
 
