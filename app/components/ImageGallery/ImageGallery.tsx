@@ -8,11 +8,8 @@ type Props = {
 }
 
 function ImageGallery({ isOpen, onClose, images }: Props) {
-    if (!isOpen) return null
-
     const [isViewOne, setIsViewOne] = useState<boolean>(false)
     const [page, setPage] = useState<number>(0)
-    const [fourPage, setFourPage] = useState<number>(0)
 
     const toggleImage = (direction: string) => {
         if (isViewOne) {
@@ -45,6 +42,7 @@ function ImageGallery({ isOpen, onClose, images }: Props) {
         return page === index || page + 1 === index || page + 2 === index || page + 3 === index;
     };
 
+    if (!isOpen) return null
     return (
         <div className="bg-white/90 fixed left-0 top-0 w-full h-screen z-[51] p-10 flex">
             <div className="flex flex-1">

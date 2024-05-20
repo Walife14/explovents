@@ -1,6 +1,6 @@
 "use client"
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { useCallback, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
@@ -48,8 +48,8 @@ function Navbar({ }: Props) {
 
     useEffect(() => {
         fetchUser()
-        if (isMyAccountNavOpen) setIsMyAccountNavOpen(false)
-    }, [])
+        setIsMyAccountNavOpen(false)
+    }, [fetchUser, pathname])
 
     return (
         <header className='z-50'>
