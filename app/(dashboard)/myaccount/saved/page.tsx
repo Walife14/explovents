@@ -34,6 +34,7 @@ function Saved({ }: Props) {
                             key={index}
                             title={'Fantasy Boat Party'}
                             description={'Join us aboard the Fantasy Boat Party for an electrifying voyage filled with music, dancing, and endless drinks against the backdrop of the open sea.'} price={60}
+                            url="event/1"
                         />
                     ))}
                 </div>

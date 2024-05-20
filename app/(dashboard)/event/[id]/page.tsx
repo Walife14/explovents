@@ -5,8 +5,15 @@ import Calendar from 'react-calendar'
 import { useState } from 'react'
 import Link from 'next/link'
 
+// components
+import ImageGallery from '@components/ImageGallery/ImageGallery'
+
 // images
 import IMG_Group_At_Boat_Party from '@/public/images/boat-party-with-drinks.jpg'
+import IMG_1 from '@/public/images/pages/event/image-1.jpg'
+import IMG_2 from '@/public/images/pages/event/image-2.jpg'
+import IMG_3 from '@/public/images/pages/event/image-3.jpg'
+import IMG_4 from '@/public/images/pages/event/image-4.jpg'
 
 type Props = {
     params: { id: string }
@@ -24,8 +31,13 @@ interface Event {
 function Event({ params }: Props) {
     const [date, setDate] = useState<Date>(new Date())
     const [nOfTickets, setNOfTickets] = useState<number>(1)
+    const [isOpen, setIsOpen] = useState(false);
 
     const tempImageArray = [1, 2, 3, 4]
+
+    const images = [
+        IMG_Group_At_Boat_Party, IMG_1, IMG_2, IMG_3, IMG_4
+    ]
 
     const eventObj: Event = {
         title: 'Castle Club Boat Party',
@@ -43,6 +55,13 @@ function Event({ params }: Props) {
         parts.shift()
         // return the array words joined together adding a space in-between
         return parts.join(' ')
+    }
+
+    const openGallery = () => {
+        setIsOpen(true)
+    }
+    const closeGallery = () => {
+        setIsOpen(false)
     }
 
     return (
@@ -99,16 +118,20 @@ function Event({ params }: Props) {
                         <div key={index} className='aspect-square bg-blue-500 rounded-md overflow-hidden relative'>
                             <Image
                                 className={`h-full object-cover ${index === tempImageArray.length - 1 ? 'filter brightness-75' : ''}`}
-                                src={IMG_Group_At_Boat_Party}
+                                src={images[index]}
                                 alt="test-image"
                             ></Image>
                             {index === tempImageArray.length - 1 ? (
-                                <button className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-semibold border-2 text-lg border-white rounded-md p-10'>View More</button>
+                                <button
+                                    onClick={openGallery}
+                                    className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-semibold border-2 text-lg border-white rounded-md p-10'
+                                >View More</button>
                             ) : null}
                         </div>
                     ))}
                 </div>
             </div>
+            <ImageGallery isOpen={isOpen} onClose={closeGallery} images={images} />
         </main>
     )
 }

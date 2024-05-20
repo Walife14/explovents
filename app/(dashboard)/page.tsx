@@ -2,8 +2,7 @@
 
 import Link from "next/link"
 import NumberedCard from "./NumberedCard"
-import { useRef } from "react"
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import useWindowSize from "@hooks/useWindowSize"
 
 // components
@@ -13,8 +12,6 @@ type Props = {}
 
 function Home({ }: Props) {
     const windowSize = useWindowSize()
-    const motiveInstructionList = useRef(null)
-    const isInView = useInView(motiveInstructionList, { once: true })
 
     return (
         <main>
@@ -33,12 +30,6 @@ function Home({ }: Props) {
                 <h2 className="mb-20 font-bold text-3xl md:w-3/6 mx-4 md:mx-auto">DISCOVER YOUR NEXT MOTIVE <span className="text-primary block text-right">EXPLOVENTS HAS GOT YOU COVERED</span></h2>
                 <motion.div
                     className="md:w-5/6 mx-4 md:mx-auto grid grid-cols-1 md:grid-cols-2 gap-20"
-                    style={{
-                        transform: isInView ? "none" : "translateX(-100px)",
-                        opacity: isInView ? 1 : 0,
-                        transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.4s"
-                    }}
-                    ref={motiveInstructionList}
                 >
                     <NumberedCard number={1} title={"Find Your Vibes"} text={"Search for the perfect motive using our intuitive search feature. Whether it's a beach bash or a nightclub rave, we've got the vibes you're looking for."} />
                     <NumberedCard number={2} title={"Lock in the Fun"} text={"Book your spot hassle-free with just a few taps. No queues, no stress - just easy-peasy booking to secure your place at the hottest events wherever you are."} />
