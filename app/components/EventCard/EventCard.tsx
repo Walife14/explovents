@@ -10,14 +10,24 @@ type Props = {
     price: number;
     darkbg?: boolean;
     url: string;
+    image: string;
 }
 
-function EventCard({ title, description, price, darkbg, url }: Props) {
+function EventCard({ title, description, price, darkbg, url, image }: Props) {
     return (
         <Link href={url}>
             <div className={`grid grid-cols-12 gap-x-2 my-8 ${darkbg && 'bg-gray-100'}`}>
-                <div className='col-span-4 md:col-span-3 relative'>
-                    <Image className='h-full object-cover' src={IMG_Boatparty} alt={`${title}`} quality={100} priority />
+                <div className='col-span-4 md:col-span-3 relative aspect-video'>
+                    {/* <Image className='h-full object-cover' src={IMG_Boatparty} alt={`${title}`} quality={100} priority /> */}
+                    <Image
+                        className='w-full h-full object-cover object-center'
+                        src={image}
+                        alt={`${title}`}
+                        quality={100}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority
+                        fill
+                    />
                 </div>
                 <div className='col-span-7 md:col-span-8 md:p-2 flex flex-col gap-y-2'>
                     <h2 className='text-lg md:text-3xl font-bold text-primary'>{title}</h2>
