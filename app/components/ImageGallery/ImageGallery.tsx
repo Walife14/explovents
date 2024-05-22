@@ -72,7 +72,8 @@ function ImageGallery({ isOpen, onClose, images }: Props) {
                                         src={img}
                                         alt="boat party with drinks"
                                         quality={100}
-                                        loading="lazy"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        fill
                                     />
                                 ))}
                             </>
@@ -89,6 +90,8 @@ function ImageGallery({ isOpen, onClose, images }: Props) {
                                             alt="Boat party with drinks"
                                             quality={100}
                                             priority
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            fill
                                         />
                                     </div>
                                 ))}

@@ -1,31 +1,45 @@
 "use client"
 
 import CountryCityDates from '@/app/components/CountryCityDates/CountryCityDates'
+import { createClient } from '@/utils/supabase/client'
+import { useEffect, useState } from 'react'
 
 // components
 import EventCard from '@components/EventCard/EventCard'
 import Button from '@components/Button/Button'
-import { createClient } from '@/utils/supabase/client'
-import { useEffect, useState } from 'react'
+
+// interfaces and types
+import { IEvent } from '@/app/interfaces/IEvent'
 
 type Props = {}
 
 function Explore({ }: Props) {
-    const supabase = createClient()
-    const [events, setEvents] = useState<any>(null)
+    const [events, setEvents] = useState<IEvent[] | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            const { data: events, error } = await supabase.from('events').select()
+    const fetchEvents = async () => {
+        try {
+            setLoading(true)
+            const response = await fetch(`/api/events`, {
+                headers: {
+                    Accept: "application/json",
+                    method: "GET"
+                }
+            })
 
-            if (error) {
-                console.log(error)
+            if (response) {
+                const eventsData = await response.json()
+                setEvents(eventsData)
             }
-
-            console.log(events)
-            setEvents(events)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
         }
 
+    }
+
+    useEffect(() => {
         fetchEvents()
     }, [])
 
@@ -47,7 +61,7 @@ function Explore({ }: Props) {
                 <h2 className='text-lg font-bold text-center'>
                     Events in <span className='text-primary underline'>Ayia Napa</span>, <span className='text-primary underline'>Cyprus</span> within <span className='text-primary underline'>27 May - 29 May</span>
                 </h2>
-                {events && (
+                {!loading && (
                     <>
                         {events.map((event: any, index: number) => (
                             <EventCard

@@ -1,14 +1,12 @@
-// import { useRouter } from "next/navigation"
-
 // components
 import EventCard from "@components/EventCard/EventCard"
 import BackBtn from "@/app/components/BackBtn/BackBtn"
 
+import tempImage from '@/public/images/boat-party-with-drinks.jpg'
+
 type Props = {}
 
 function Saved({ }: Props) {
-    // const router = useRouter()
-
     return (
         <main>
             <div className="w-5/6 mx-auto">
@@ -35,6 +33,7 @@ function Saved({ }: Props) {
                             title={'Fantasy Boat Party'}
                             description={'Join us aboard the Fantasy Boat Party for an electrifying voyage filled with music, dancing, and endless drinks against the backdrop of the open sea.'} price={60}
                             url="event/1"
+                            image="https://hmgsintxxxubgofxjaiw.supabase.co/storage/v1/object/public/events/Red%20Boat%20Party/banner_image/red_boat_party_banner.jpg"
                         />
                     ))}
                 </div>
