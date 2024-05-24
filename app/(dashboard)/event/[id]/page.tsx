@@ -10,6 +10,7 @@ import ImageGallery from '@components/ImageGallery/ImageGallery'
 
 // interfaces and types
 import { IEvent } from '@/app/interfaces/IEvent'
+import SaveEventBtn from '@/app/components/SaveEventBtn/SaveEventBtn'
 
 type Props = {
     params: { id: string }
@@ -105,6 +106,11 @@ function Event({ params }: Props) {
                                 </div>
                             </div>
                             <Link className='text-white bg-secondary font-bold block text-center py-4 rounded-md mt-4 text-lg' href="/">CONFIRM</Link>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <SaveEventBtn id={event.id} />
                         </div>
                     </div>
                     <div className='my-20'>
