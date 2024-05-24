@@ -11,6 +11,7 @@ import ImageGallery from '@components/ImageGallery/ImageGallery'
 // interfaces and types
 import { IEvent } from '@/app/interfaces/IEvent'
 import SaveEventBtn from '@/app/components/SaveEventBtn/SaveEventBtn'
+import { createClient } from '@/utils/supabase/client'
 
 type Props = {
     params: { id: string }
@@ -22,6 +23,18 @@ function Event({ params }: Props) {
     const [isGalleryOpen, setIsGalleryOpen] = useState(false);
     const [loading, setLoading] = useState<boolean>(true)
     const [event, setEvent] = useState<IEvent | null>(null)
+    const [user, setUser] = useState<boolean>(false)
+
+    const supabase = createClient()
+
+    const checkIfUser = async () => {
+        const { data, error } = await supabase.auth.getUser()
+
+        if (data.user) {
+            setUser(true)
+        }
+    }
+
 
     const fetchEvent = async () => {
         try {
@@ -45,6 +58,7 @@ function Event({ params }: Props) {
 
     useEffect(() => {
         fetchEvent()
+        checkIfUser()
     }, [])
 
     function customDate(date: string) {
@@ -108,10 +122,12 @@ function Event({ params }: Props) {
                             <Link className='text-white bg-secondary font-bold block text-center py-4 rounded-md mt-4 text-lg' href="/">CONFIRM</Link>
                         </div>
                     </div>
-                    <div>
-                        <div>
-                            <SaveEventBtn id={event.id} />
-                        </div>
+                    <div className='my-10'>
+                        {user && (
+                            <div className='flex justify-end'>
+                                <SaveEventBtn id={event.id} />
+                            </div>
+                        )}
                     </div>
                     <div className='my-20'>
                         <h2 className='text-3xl text-primary font-bold'>Gallery</h2>

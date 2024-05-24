@@ -41,11 +41,9 @@ function SaveEventBtn({ id }: Props) {
                     const { saved_events } = json
                     // check if we have the provided event id in the current users saved events
                     if (saved_events.includes(givenId)) {
-                        console.log("has this event saved")
                         // user has this event saved
                         setIsEventSaved(true)
                     } else {
-                        console.log("DOES NOT have this event saved")
                         // user does not have this event saved
                         setIsEventSaved(false)
                     }

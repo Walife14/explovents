@@ -1,6 +1,41 @@
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET() {
+    const supabase = createClient()
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError) {
+        console.log(authError)
+    }
+
+    const { data: row, error: userError } = await supabase
+        .from('profiles')
+        .select('saved_events')
+        .match({ 'id': user.id })
+        .single()
+
+    if (userError) {
+        console.log(userError)
+    }
+
+    // get the ids of users saved events
+    const { saved_events } = row
+
+    // fetch all the saved events
+    const { data: fetchedEvents, error: eventsError } = await supabase
+        .from('events')
+        .select('*')
+        .in('id', saved_events)
+
+    if (eventsError) {
+        console.log(eventsError)
+    }
+
+    return NextResponse.json(fetchedEvents)
+}
+
 export async function PUT(req: NextRequest) {
     const { id } = await req.json()
     const supabase = createClient()
