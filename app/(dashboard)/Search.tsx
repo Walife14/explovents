@@ -1,44 +1,82 @@
-"use client"
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 // components
-import AnimatedBubble from "./AnimatedBubble"
-import CountryCityDates from "../components/CountryCityDates/CountryCityDates"
-import useWindowSize from "../hooks/useWindowSize"
+import CountryCityDates from "../components/CountryCityDates/CountryCityDates";
 
-type Props = {}
+// images
+import arrows_graphic from "@/public/images/pages/home/arrows-graphic.svg";
 
-function Search({ }: Props) {
-    const windowSize = useWindowSize()
+type Props = {};
 
-    const handleSubmit = async (e: React.FormEvent, country: string, city: string, selectedDate: any) => {
-        e.preventDefault()
+function Search({}: Props) {
+  const [headerHeight, setHeaderHeight] = useState<number>(0);
 
-        console.log(country, city, selectedDate)
-    }
+  const handleSubmit = async (
+    e: React.FormEvent,
+    country: string,
+    city: string,
+    selectedDate: any
+  ) => {
+    e.preventDefault();
 
-    return (
-        <div className="mx-4 md:w-5/6 md:mx-auto space-y-10 relative mt-8">
-            {windowSize.width > 1024 && (
-                <>
-                    <AnimatedBubble color={1} delay={0} position={'top-[5%] -left-[5%]'} />
-                    <AnimatedBubble color={1} delay={0.25} position={'-top-[5%] left-[10%]'} />
-                    <AnimatedBubble color={1} delay={1} position={'-top-[5%] left-[25%]'} />
-                    <AnimatedBubble color={1} delay={0.75} position={'top-[50%] left-[25%]'} />
-                    <AnimatedBubble color={1} delay={0.25} position={'-top-[5%] left-[40%]'} />
-                    <AnimatedBubble color={2} delay={1} position={'top-[40%] left-[40%]'} />
-                    <AnimatedBubble color={2} delay={0.5} position={'top-[10%] left-[40%]'} />
-                    <AnimatedBubble color={1} delay={0.2} position={'-top-[5%] right-[25%]'} />
-                    <AnimatedBubble color={1} delay={0.6} position={'top-[50%] right-[25%]'} />
-                    <AnimatedBubble color={1} delay={0.4} position={'-top-[5%] right-[10%]'} />
-                    <AnimatedBubble color={1} delay={0.8} position={'top-[5%] -right-[5%]'} />
-                </>
-            )}
+    console.log(country, city, selectedDate);
+  };
 
-            <h1 className="text-3xl font-black text-center">We&apos;ve got you covered</h1>
+  useEffect(() => {
+    const header = document.querySelector("header");
+    setHeaderHeight(header.offsetHeight);
+  }, []);
 
-            <CountryCityDates handleSubmit={handleSubmit} />
-        </div>
-    )
+  return (
+    <div
+      className="mx-4 md:w-5/6 md:mx-auto flex flex-col justify-evenly relative transition-all"
+      style={{ height: `calc(100svh - ${headerHeight}px)` }}
+    >
+      <Image
+        className="absolute top-0 right-0 opacity-20 md:opacity-50 -z-20 scale-125 md:scale-75 transition-all"
+        src={arrows_graphic}
+        alt="arrows graphic"
+        layout="fill"
+      />
+      <div>
+        <h1 className="text-3xl font-black text-center mb-20">
+          We&apos;ve got you covered
+        </h1>
+        <CountryCityDates handleSubmit={handleSubmit} />
+      </div>
+
+      <div className="flex justify-evenly text-center font-semibold text-lg">
+        <motion.span
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          Boat Parties
+        </motion.span>
+        <motion.span
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          Pool Parties
+        </motion.span>
+        <motion.span
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          Beach Parties
+        </motion.span>
+        <motion.span
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          Other Events
+        </motion.span>
+      </div>
+    </div>
+  );
 }
 
-export default Search
+export default Search;
