@@ -1,8 +1,8 @@
 "use client";
 
 import CountryCityDates from "@/app/components/CountryCityDates/CountryCityDates";
-import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 // components
 import EventCard from "@components/EventCard/EventCard";
@@ -83,17 +83,19 @@ function Explore({}: Props) {
               <span className="text-primary underline">27 May - 29 May</span>
             </h2>
 
-            {events.map((event: any, index: number) => (
-              <EventCard
-                key={index}
-                title={event.title}
-                description={event.description}
-                price={60}
-                image={event.banner_image_url}
-                darkbg={index % 2 === 0}
-                url={"/event/" + event.id}
-              />
-            ))}
+            <motion.div initial={{ x: -75 }} animate={{ x: 0 }}>
+              {events.map((event: any, index: number) => (
+                <EventCard
+                  key={index}
+                  title={event.title}
+                  description={event.description}
+                  price={60}
+                  image={event.banner_image}
+                  darkbg={index % 2 === 0}
+                  url={"/event/" + event.id}
+                />
+              ))}
+            </motion.div>
 
             <div className="flex justify-center my-8">
               <Button text={"Show more"} nonFullWidth={true} />

@@ -11,5 +11,5 @@ export interface IEvent {
     location: string;
     title: string;
     updated_at: Date | null;
-    banner_image_url: string;
+    banner_image: string;
 }
