@@ -1,88 +1,111 @@
-"use client"
+"use client";
 
-import CountryCityDates from '@/app/components/CountryCityDates/CountryCityDates'
-import { createClient } from '@/utils/supabase/client'
-import { useEffect, useState } from 'react'
+import CountryCityDates from "@/app/components/CountryCityDates/CountryCityDates";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
 
 // components
-import EventCard from '@components/EventCard/EventCard'
-import Button from '@components/Button/Button'
+import EventCard from "@components/EventCard/EventCard";
+import Button from "@components/Button/Button";
 
 // interfaces and types
-import { IEvent } from '@/app/interfaces/IEvent'
+import { IEvent } from "@/app/interfaces/IEvent";
+import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
-type Props = {}
+type Props = {};
 
-function Explore({ }: Props) {
-    const [events, setEvents] = useState<IEvent[] | null>(null)
-    const [loading, setLoading] = useState<boolean>(true)
+function Explore({}: Props) {
+  const [events, setEvents] = useState<IEvent[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-    const fetchEvents = async () => {
-        try {
-            setLoading(true)
-            const response = await fetch(`/api/events`, {
-                headers: {
-                    Accept: "application/json",
-                    method: "GET"
-                }
-            })
+  const fetchEvents = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/events`, {
+        headers: {
+          Accept: "application/json",
+          method: "GET",
+        },
+      });
 
-            if (response) {
-                const eventsData = await response.json()
-                setEvents(eventsData)
-            }
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
-
+      if (response) {
+        const eventsData = await response.json();
+        setEvents(eventsData);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    useEffect(() => {
-        fetchEvents()
-    }, [])
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
-    const handleSubmit = (
-        e: React.FormEvent, country: string,
-        city: string, selectedDate: any,
-        boatPartyEventChecked: boolean, poolPartyEventChecked: boolean,
-        beachPartyEventChecked: boolean, otherPartyEventChecked: boolean
-    ) => {
-        e.preventDefault()
+  const handleSubmit = (
+    e: React.FormEvent,
+    country: string,
+    city: string,
+    selectedDate: any,
+    boatPartyEventChecked: boolean,
+    poolPartyEventChecked: boolean,
+    beachPartyEventChecked: boolean,
+    otherPartyEventChecked: boolean
+  ) => {
+    e.preventDefault();
 
-        console.log(country, city, selectedDate, boatPartyEventChecked, poolPartyEventChecked, beachPartyEventChecked, otherPartyEventChecked)
-    }
+    console.log(
+      country,
+      city,
+      selectedDate,
+      boatPartyEventChecked,
+      poolPartyEventChecked,
+      beachPartyEventChecked,
+      otherPartyEventChecked
+    );
+  };
 
-    return (
-        <main>
-            <div className={`mx-4 md:w-5/6 md:mx-auto`}>
-                <CountryCityDates handleSubmit={handleSubmit} btnText="Update" includeEventTypes={true} />
-                <h2 className='text-lg font-bold text-center'>
-                    Events in <span className='text-primary underline'>Ayia Napa</span>, <span className='text-primary underline'>Cyprus</span> within <span className='text-primary underline'>27 May - 29 May</span>
-                </h2>
-                {!loading && (
-                    <>
-                        {events.map((event: any, index: number) => (
-                            <EventCard
-                                key={index}
-                                title={event.title}
-                                description={event.description}
-                                price={60}
-                                image={event.banner_image_url}
-                                darkbg={index % 2 === 0}
-                                url={'/event/' + event.id}
-                            />
-                        ))}
-                    </>
-                )}
-                <div className='flex justify-center my-8'>
-                    <Button text={'Show more'} nonFullWidth={true} />
-                    {/* Button -> once clicked loads 8 more events from the database and then causes the refresh of the mapping of event cards with data (Possibly use useEffect to listen to changes to "eventsList"? the mapping goes through eventsList)*/}
-                </div>
+  return (
+    <main>
+      <div className={`mx-4 md:w-5/6 md:mx-auto`}>
+        <CountryCityDates
+          handleSubmit={handleSubmit}
+          btnText="Update"
+          includeEventTypes={true}
+        />
+        {!loading ? (
+          <>
+            <h2 className="text-lg font-bold text-center">
+              Events in{" "}
+              <span className="text-primary underline">Ayia Napa</span>,{" "}
+              <span className="text-primary underline">Cyprus</span> within{" "}
+              <span className="text-primary underline">27 May - 29 May</span>
+            </h2>
+
+            {events.map((event: any, index: number) => (
+              <EventCard
+                key={index}
+                title={event.title}
+                description={event.description}
+                price={60}
+                image={event.banner_image_url}
+                darkbg={index % 2 === 0}
+                url={"/event/" + event.id}
+              />
+            ))}
+
+            <div className="flex justify-center my-8">
+              <Button text={"Show more"} nonFullWidth={true} />
+              {/* Button -> once clicked loads 8 more events from the database and then causes the refresh of the mapping of event cards with data (Possibly use useEffect to listen to changes to "eventsList"? the mapping goes through eventsList)*/}
             </div>
-        </main>
-    )
+          </>
+        ) : (
+          <LoadingSpinner />
+        )}
+      </div>
+    </main>
+  );
 }
 
-export default Explore
+export default Explore;
