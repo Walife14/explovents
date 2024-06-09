@@ -33,7 +33,7 @@ function Search({}: Props) {
 
   return (
     <div
-      className="mx-4 md:w-5/6 md:mx-auto flex flex-col justify-evenly relative transition-all"
+      className="px-4 md:w-5/6 md:mx-auto flex flex-col justify-evenly relative transition-all overflow-hidden"
       style={{ height: `calc(100svh - ${headerHeight}px)` }}
     >
       <Image
