@@ -8,7 +8,8 @@ export interface IEvent {
     dress_code: string;
     event_images: string[];
     event_type: EventType;
-    location: string;
+    country: string;
+    city: string;
     title: string;
     updated_at: Date | null;
     banner_image: string;

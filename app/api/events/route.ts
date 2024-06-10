@@ -1,15 +1,22 @@
 import { createClient } from "@/utils/supabase/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest ) {
+    const searchParams = request.nextUrl.searchParams
     const supabase = createClient()
 
-    const { data: events, error } = await supabase
-        .from('events')
-        .select()
+    let query = supabase.from('events').select('*', { count: 'exact'})
+    
+    if (searchParams.has('country') && searchParams.has('city')) {
+        query = query.eq('country', searchParams.get('country').toLowerCase()).eq('city', searchParams.get('city').toLowerCase())
+    }
+
+    const { data: events, count, error } = await query
+
+    console.log(count)
 
     if (error) console.log(error)
 
-    return NextResponse.json(events)
+    return NextResponse.json({ events, count })
 }

@@ -17,11 +17,20 @@ type Props = {};
 function Explore({}: Props) {
   const [events, setEvents] = useState<IEvent[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [selectedCountry, setSelectedCountry] = useState<string>(null);
+  const [selectedCity, setSelectedCity] = useState<string>(null);
+  const [numberOfEventsFound, setNumberOfEventsFound] = useState<number | null>(
+    null
+  );
 
-  const fetchEvents = async () => {
+  const fetchEvents = async (country?: string, city?: string) => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/events`, {
+      let q: string = "";
+      if (country && city) {
+        q = `?country=${country}&city=${city}`;
+      }
+      const response = await fetch(`/api/events${q}`, {
         headers: {
           Accept: "application/json",
           method: "GET",
@@ -30,7 +39,8 @@ function Explore({}: Props) {
 
       if (response) {
         const eventsData = await response.json();
-        setEvents(eventsData);
+        setEvents(eventsData.events);
+        setNumberOfEventsFound(eventsData.count);
       }
     } catch (error) {
       console.log(error);
@@ -43,7 +53,7 @@ function Explore({}: Props) {
     fetchEvents();
   }, []);
 
-  const handleSubmit = (
+  const handleSubmit = async (
     e: React.FormEvent,
     country: string,
     city: string,
@@ -55,15 +65,19 @@ function Explore({}: Props) {
   ) => {
     e.preventDefault();
 
-    console.log(
-      country,
-      city,
-      selectedDate,
-      boatPartyEventChecked,
-      poolPartyEventChecked,
-      beachPartyEventChecked,
-      otherPartyEventChecked
-    );
+    await fetchEvents(country, city);
+    setSelectedCity(city);
+    setSelectedCountry(country);
+
+    // console.log(
+    //   country,
+    //   city,
+    //   selectedDate,
+    //   boatPartyEventChecked,
+    //   poolPartyEventChecked,
+    //   beachPartyEventChecked,
+    //   otherPartyEventChecked
+    // );
   };
 
   return (
@@ -76,12 +90,41 @@ function Explore({}: Props) {
         />
         {!loading ? (
           <>
-            <h2 className="text-lg font-bold text-center">
-              Events in{" "}
-              <span className="text-primary underline">Ayia Napa</span>,{" "}
-              <span className="text-primary underline">Cyprus</span> within{" "}
-              <span className="text-primary underline">27 May - 29 May</span>
+            <h2
+              className={`text-sm font-bold text-center ${
+                selectedCountry && "text-lg"
+              }`}
+            >
+              {selectedCountry && selectedCity ? (
+                <>
+                  Events in{" "}
+                  <span className="text-primary underline">{selectedCity}</span>
+                  ,{" "}
+                  <span className="text-primary underline">
+                    {selectedCountry}
+                  </span>{" "}
+                  within{" "}
+                  <span className="text-primary underline">
+                    27 May - 29 May
+                  </span>
+                  .
+                </>
+              ) : (
+                <>
+                  You haven&apos;t searched for a location yet. Please use the
+                  search form above to find events in your desired area!
+                </>
+              )}
             </h2>
+
+            {selectedCountry && selectedCity && (
+              <p>
+                <span className="py-1 px-3 ring-2 ring-triary mr-2">
+                  {numberOfEventsFound}
+                </span>{" "}
+                event{numberOfEventsFound > 1 && "s"} found!
+              </p>
+            )}
 
             <motion.div initial={{ x: -75 }} animate={{ x: 0 }}>
               {events.map((event: any, index: number) => (
