@@ -22,7 +22,8 @@ const config: Config = {
         'triary-light': '#98fb98',
         'triary-dark': '#2e8b57',
         'dark-gray': '#444444',
-        'charcoal': '#181818'
+        'charcoal': '#181818',
+        'error': '#FF453A'
       }
     },
   },

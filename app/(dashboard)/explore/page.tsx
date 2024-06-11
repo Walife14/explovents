@@ -17,18 +17,30 @@ type Props = {};
 function Explore({}: Props) {
   const [events, setEvents] = useState<IEvent[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [checkboxError, setCheckboxError] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>(null);
   const [selectedCity, setSelectedCity] = useState<string>(null);
   const [numberOfEventsFound, setNumberOfEventsFound] = useState<number | null>(
     null
   );
 
-  const fetchEvents = async (country?: string, city?: string) => {
+  const fetchEvents = async (
+    country?: string,
+    city?: string,
+    boatPartyEventChecked?: boolean,
+    poolPartyEventChecked?: boolean,
+    beachPartyEventChecked?: boolean,
+    otherPartyEventChecked?: boolean
+  ) => {
     try {
       setLoading(true);
       let q: string = "";
       if (country && city) {
-        q = `?country=${country}&city=${city}`;
+        q = `?country=${country}&city=${city}${
+          boatPartyEventChecked ? "&boatparty=true" : ""
+        }${poolPartyEventChecked ? "&poolparty=true" : ""}${
+          beachPartyEventChecked ? "&beachparty=true" : ""
+        }${otherPartyEventChecked ? "&otherparty=true" : ""}`;
       }
       const response = await fetch(`/api/events${q}`, {
         headers: {
@@ -64,20 +76,34 @@ function Explore({}: Props) {
     otherPartyEventChecked: boolean
   ) => {
     e.preventDefault();
+    setCheckboxError("");
 
-    await fetchEvents(country, city);
+    if (
+      !boatPartyEventChecked &&
+      !poolPartyEventChecked &&
+      !beachPartyEventChecked &&
+      !otherPartyEventChecked
+    ) {
+      setCheckboxError(
+        "Please make sure that you select at least one event type!"
+      );
+      return;
+    }
+
+    await fetchEvents(
+      country,
+      city,
+      boatPartyEventChecked,
+      poolPartyEventChecked,
+      beachPartyEventChecked,
+      otherPartyEventChecked
+    );
     setSelectedCity(city);
     setSelectedCountry(country);
 
-    // console.log(
-    //   country,
-    //   city,
-    //   selectedDate,
-    //   boatPartyEventChecked,
-    //   poolPartyEventChecked,
-    //   beachPartyEventChecked,
-    //   otherPartyEventChecked
-    // );
+    // if searching for boat parties just return events that match boat parties, same for pool and beach.
+    // if searching for other parties show all events != boat/beach/pool parties.
+    // if boat and other party selected show boat parties && events that are != pool_parties && beach_parties, etc.
   };
 
   return (
@@ -88,6 +114,27 @@ function Explore({}: Props) {
           btnText="Update"
           includeEventTypes={true}
         />
+
+        {checkboxError && (
+          <div className="flex items-center text-error border-2 border-dark-gray/50 rounded-full p-2 gap-x-4 mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-14 md:size-8"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+              />
+            </svg>
+            <span>{checkboxError}</span>
+          </div>
+        )}
+
         {!loading ? (
           <>
             <h2
@@ -118,7 +165,7 @@ function Explore({}: Props) {
             </h2>
 
             {selectedCountry && selectedCity && (
-              <p>
+              <p className="my-4">
                 <span className="py-1 px-3 ring-2 ring-triary mr-2">
                   {numberOfEventsFound}
                 </span>{" "}
