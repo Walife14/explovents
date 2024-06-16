@@ -14,16 +14,47 @@ type Props = {
   ) => void;
   btnText?: string;
   includeEventTypes?: boolean;
+  hasCountry?: string;
+  hasCity?: string;
+  hasBoatPartyEventChecked?: boolean;
+  hasPoolPartyEventChecked?: boolean;
+  hasBeachPartyEventChecked?: boolean;
+  hasOtherPartyEventChecked?: boolean;
 };
 
-function CountryCityDates({ handleSubmit, btnText, includeEventTypes }: Props) {
-  const [country, setCountry] = useState<string>("");
-  const [city, setCity] = useState<string>("");
+// list of countries/cities combinations for events we hold
+const locations = {
+  spain: ["ibiza", "marbella"],
+  greece: ["zakynthos", "mykonos"],
+  cyprus: ["ayia napa"],
+};
+
+function CountryCityDates({
+  handleSubmit,
+  btnText,
+  includeEventTypes,
+  hasCountry,
+  hasCity,
+  hasBoatPartyEventChecked,
+  hasPoolPartyEventChecked,
+  hasBeachPartyEventChecked,
+  hasOtherPartyEventChecked,
+}: Props) {
+  const [country, setCountry] = useState<string>(hasCountry ? hasCountry : "");
+  const [city, setCity] = useState<string>(hasCity ? hasCity : "");
   const [selectedDate, setSelectedDate] = useState(getTodaysDate());
-  const [boatPartyEventChecked, setBoatPartyEventChecked] = useState(false);
-  const [poolPartyEventChecked, setPoolPartyEventChecked] = useState(false);
-  const [beachPartyEventChecked, setBeachPartyEventChecked] = useState(false);
-  const [otherPartyEventChecked, setOtherPartyEventChecked] = useState(false);
+  const [boatPartyEventChecked, setBoatPartyEventChecked] = useState<boolean>(
+    hasBoatPartyEventChecked ? true : false
+  );
+  const [poolPartyEventChecked, setPoolPartyEventChecked] = useState<boolean>(
+    hasPoolPartyEventChecked ? true : false
+  );
+  const [beachPartyEventChecked, setBeachPartyEventChecked] = useState<boolean>(
+    hasBeachPartyEventChecked ? true : false
+  );
+  const [otherPartyEventChecked, setOtherPartyEventChecked] = useState<boolean>(
+    hasOtherPartyEventChecked ? true : false
+  );
   const [allPartyEventChecked, setAllPartyEventChecked] = useState(false);
 
   const options = [
@@ -105,9 +136,9 @@ function CountryCityDates({ handleSubmit, btnText, includeEventTypes }: Props) {
         )
       }
     >
-      <div className="flex flex-col md:flex-row gap-x-1 gap-y-1 p-1 bg-triary text-2xl rounded-md">
+      <div className="flex flex-col md:flex-row gap-x-1 gap-y-1 p-1 md:text-lg bg-triary rounded-md">
         <div className="md:flex-1 flex">
-          <label htmlFor="countryInput" hidden>
+          <label htmlFor="countrySelect" hidden>
             Select Country
           </label>
           <div className="flex items-center justify-center p-2 rounded-l-md bg-white">
@@ -126,19 +157,28 @@ function CountryCityDates({ handleSubmit, btnText, includeEventTypes }: Props) {
               />
             </svg>
           </div>
-          <input
-            className="p-2 placeholder:text-dark-gray rounded-r-md flex-1 rounded-l-none"
-            id="countryInput"
-            type="text"
-            placeholder="Country"
-            onChange={(e) => setCountry(e.target.value)}
+          <select
+            className="w-full p-2 placeholder:text-dark-gray rounded-r-md rounded-l-none focus:outline-none hover:cursor-pointer"
+            id="countrySelect"
+            onChange={(e) => {
+              setCountry(e.target.value);
+              setCity("");
+            }}
             value={country}
             required
-            size={1}
-          />
+          >
+            <option value="" disabled>
+              Please select a country
+            </option>
+            {Object.keys(locations).map((key: string, index: number) => (
+              <option value={key} key={index}>
+                {key.charAt(0).toUpperCase() + key.slice(1)}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="flex-1 flex">
-          <label htmlFor="cityInput" hidden>
+          <label htmlFor="citySelect" hidden>
             Select City
           </label>
           <div className="flex items-center justify-center p-2 rounded-l-md bg-white">
@@ -162,16 +202,26 @@ function CountryCityDates({ handleSubmit, btnText, includeEventTypes }: Props) {
               />
             </svg>
           </div>
-          <input
-            className="p-2 placeholder:text-dark-gray flex-1 rounded-r-md rounded-l-none"
-            id="cityInput"
-            type="text"
-            placeholder="City"
+          <select
+            className="w-full p-2 placeholder:text-dark-gray rounded-r-md rounded-l-none focus:outline-none hover:cursor-pointer"
+            id="citySelect"
             onChange={(e) => setCity(e.target.value)}
             value={city}
             required
-            size={1}
-          />
+          >
+            <option value="" disabled>
+              Please select a city
+            </option>
+            {country && (
+              <>
+                {locations[country].map((key: string, index: number) => (
+                  <option value={key} key={index}>
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                  </option>
+                ))}
+              </>
+            )}
+          </select>
         </div>
         <div className="flex-1 flex">
           <label htmlFor="dateInput" hidden>

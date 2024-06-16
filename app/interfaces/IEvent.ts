@@ -1,4 +1,4 @@
-type EventType = 'Boat Party' | 'Pool Party' | 'Beach Party' | 'Other Party'
+type EventType = 'boat_party' | 'pool_party' | 'beach_party' | 'other_party'
 
 export interface IEvent {
     id: number;

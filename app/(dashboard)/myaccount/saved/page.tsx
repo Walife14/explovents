@@ -50,16 +50,18 @@ function Saved({}: Props) {
           <h1 className="text-primary text-center">Saved Events</h1>
         </div>
         {!loading ? (
-          <div>
+          <div className="flex flex-col gap-y-8 my-4">
             {savedEvents.length > 0 ? (
-              savedEvents.map((event: IEvent, index) => (
+              savedEvents.map((event: IEvent, index: number) => (
                 <EventCard
                   key={index}
                   title={event.title}
-                  description={event.description}
                   price={60}
-                  url={`/event/${event.id}`}
                   image={event.banner_image}
+                  url={"/event/" + event.id}
+                  event_type={event.event_type}
+                  country={event.country}
+                  city={event.city}
                 />
               ))
             ) : (

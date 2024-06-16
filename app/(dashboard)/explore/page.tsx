@@ -3,14 +3,15 @@
 import CountryCityDates from "@/app/components/CountryCityDates/CountryCityDates";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 // components
 import EventCard from "@components/EventCard/EventCard";
 import Button from "@components/Button/Button";
+import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
 // interfaces and types
 import { IEvent } from "@/app/interfaces/IEvent";
-import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
 type Props = {};
 
@@ -23,6 +24,9 @@ function Explore({}: Props) {
   const [numberOfEventsFound, setNumberOfEventsFound] = useState<number | null>(
     null
   );
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
   const fetchEvents = async (
     country?: string,
@@ -62,7 +66,16 @@ function Explore({}: Props) {
   };
 
   useEffect(() => {
-    fetchEvents();
+    const country = searchParams.get("country");
+    const city = searchParams.get("city");
+
+    if (country && city) {
+      setSelectedCity(city);
+      setSelectedCountry(country);
+      fetchEvents(country, city, true, true, true, true);
+    } else {
+      fetchEvents();
+    }
   }, []);
 
   const handleSubmit = async (
@@ -101,9 +114,12 @@ function Explore({}: Props) {
     setSelectedCity(city);
     setSelectedCountry(country);
 
-    // if searching for boat parties just return events that match boat parties, same for pool and beach.
-    // if searching for other parties show all events != boat/beach/pool parties.
-    // if boat and other party selected show boat parties && events that are != pool_parties && beach_parties, etc.
+    // alter the url query to match new search param
+    const params = new URLSearchParams(searchParams);
+    params.set("country", country);
+    params.set("city", city);
+
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -113,6 +129,12 @@ function Explore({}: Props) {
           handleSubmit={handleSubmit}
           btnText="Update"
           includeEventTypes={true}
+          hasCity={searchParams.get("city")}
+          hasCountry={searchParams.get("country")}
+          hasBeachPartyEventChecked={true}
+          hasBoatPartyEventChecked={true}
+          hasOtherPartyEventChecked={true}
+          hasPoolPartyEventChecked={true}
         />
 
         {checkboxError && (
@@ -173,16 +195,21 @@ function Explore({}: Props) {
               </p>
             )}
 
-            <motion.div initial={{ x: -75 }} animate={{ x: 0 }}>
-              {events.map((event: any, index: number) => (
+            <motion.div
+              initial={{ x: -75 }}
+              animate={{ x: 0 }}
+              className="flex flex-col gap-y-8 my-4"
+            >
+              {events.map((event: IEvent, index: number) => (
                 <EventCard
                   key={index}
                   title={event.title}
-                  description={event.description}
                   price={60}
                   image={event.banner_image}
-                  darkbg={index % 2 === 0}
                   url={"/event/" + event.id}
+                  event_type={event.event_type}
+                  country={event.country}
+                  city={event.city}
                 />
               ))}
             </motion.div>

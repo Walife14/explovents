@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // components
 import CountryCityDates from "../components/CountryCityDates/CountryCityDates";
@@ -14,6 +15,7 @@ type Props = {};
 
 function Search({}: Props) {
   const [headerHeight, setHeaderHeight] = useState<number>(0);
+  const router = useRouter();
 
   const handleSubmit = async (
     e: React.FormEvent,
@@ -23,7 +25,8 @@ function Search({}: Props) {
   ) => {
     e.preventDefault();
 
-    console.log(country, city, selectedDate);
+    // need to add pagination, selected event_types and date to string in future
+    router.push(`/explore?country=${country}&city=${city}`);
   };
 
   useEffect(() => {
@@ -40,7 +43,7 @@ function Search({}: Props) {
         className="absolute top-0 right-0 opacity-20 md:opacity-50 -z-20 scale-125 md:scale-75 transition-all"
         src={arrows_graphic}
         alt="arrows graphic"
-        layout="fill"
+        fill
       />
       <div>
         <h1 className="text-3xl font-black text-center mb-20">
