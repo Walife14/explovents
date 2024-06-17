@@ -28,35 +28,35 @@ function Event({ params }: Props) {
 
   const supabase = createClient();
 
-  const checkIfUser = async () => {
-    const { data, error } = await supabase.auth.getUser();
-
-    if (data.user) {
-      setUser(true);
-    }
-  };
-
-  const fetchEvent = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/events/${params.id}`, {
-        headers: {
-          Accept: "application/json",
-          method: "GET",
-        },
-      });
-      if (response) {
-        const eventData = await response.json();
-        setEvent(eventData[0]);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`/api/events/${params.id}`, {
+          headers: {
+            Accept: "application/json",
+            method: "GET",
+          },
+        });
+        if (response) {
+          const eventData = await response.json();
+          setEvent(eventData[0]);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const checkIfUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (data.user) {
+        setUser(true);
+      }
+    };
+
     fetchEvent();
     checkIfUser();
   }, []);
