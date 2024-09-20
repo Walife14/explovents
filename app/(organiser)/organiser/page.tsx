@@ -20,7 +20,7 @@ function page({ }: Props) {
                     <h2 className='mb-4'>Why should I register for an organiser account?</h2>
                     <div className='flex flex-col gap-y-2'>
                         <p>
-                            By creating an organiser account on Explovents, you'll unlock the tools needed to manage your events effortlessly.
+                            By creating an organiser account on Explovents, you&apos;ll unlock the tools needed to manage your events effortlessly.
                             From promoting events and tracking ticket sales to engaging with attendees, our platform provides everything you need to run successful events.
                         </p>
                         <p>

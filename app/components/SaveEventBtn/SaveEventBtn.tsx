@@ -54,7 +54,7 @@ function SaveEventBtn({ id }: Props) {
         }
 
         checkIfAlreadySaved()
-    }, [])
+    }, [givenId])
 
     return (
         <button className="flex gap-x-1" onClick={toggleSaveEvent}>

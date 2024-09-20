@@ -59,7 +59,7 @@ function Event({ params }: Props) {
 
     fetchEvent();
     checkIfUser();
-  }, []);
+  }, [params.id, supabase.auth]);
 
   function customDate(date: string) {
     // split the date by spaces returning an array of words

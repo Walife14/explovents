@@ -76,7 +76,7 @@ function Explore({}: Props) {
     } else {
       fetchEvents();
     }
-  }, []);
+  }, [searchParams]);
 
   const handleSubmit = async (
     e: React.FormEvent,

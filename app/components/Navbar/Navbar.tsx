@@ -44,7 +44,7 @@ function Navbar({}: Props) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [supabase.auth]);
 
   useEffect(() => {
     fetchUser();
