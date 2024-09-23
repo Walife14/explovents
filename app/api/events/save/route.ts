@@ -1,80 +1,82 @@
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
-    const supabase = createClient()
 
+// THIS grabs all of the events currently saved by the current user
+export async function GET() {
+    // GET CURRENT USER
+    const supabase = createClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
 
+    // CHECK IF THERE IS AN ERROR WITH FETCHING THE CURRENT USER
     if (authError) {
-        console.log(authError)
+        console.log("We could not fetch the current user", authError)
     }
 
-    const { data: row, error: userError } = await supabase
-        .from('profiles')
-        .select('saved_events')
-        .match({ 'id': user.id })
-        .single()
+    // CHECK WITHIN THE USER_EVENTS_RELATIONS TABLE FOR ANY INSTANCES OF THE CURRENT USER ID WITH A LIST OF THE EVENTS ID
+    const { data, error: error2 } = await supabase
+        .from('user_event_relations')
+        .select()
+        .eq('user_id', user.id)
 
-    if (userError) {
-        console.log(userError)
+    // HANDLE IF ANY ERROR FINDING ANY INSTANCES IN THE USER_RELATIONS_TABLE OR ANY OTHER ERRORS
+    if (error2) {
+        console.log("We have had an error when attempting to fetch any events saved by the currently signed in user", error2)
     }
 
-    // get the ids of users saved events
-    const { saved_events } = row
-
-    // fetch all the saved events
-    const { data: fetchedEvents, error: eventsError } = await supabase
+    // USE THE LIST OF RETURNED EVENT_ID'S TO GRAB ALL OF THE EVENTS BY ID
+    const { data: events, error: eventsError } = await supabase
         .from('events')
-        .select('*')
-        .in('id', saved_events)
+        .select()
+        .in('id', data.map((savedRelation) => savedRelation.event_id))
 
+    // CHECK IF THERE IS AN ERROR WITH GRABBING ALL OF THE EVENTS -> HANDLE ERROR
     if (eventsError) {
-        console.log(eventsError)
+        console.log('Error fetching the current user saved events', eventsError)
     }
 
-    return NextResponse.json(fetchedEvents)
+    // RETURN THE LIST OF EVENTS SAVED BY THE CURRENT USER
+    return NextResponse.json(events)
 }
 
+// THIS updates the user profile table adding or removing the current event by id from the users "saved_events" field
 export async function PUT(req: NextRequest) {
     const { id } = await req.json()
     const supabase = createClient()
 
-    // get the current user to update their savedEvents
-    const { data: { user } } = await supabase.auth.getUser()
+    // GRAB CURRENT USER ID
+    const { data: { user }, error: userError } = await supabase.auth.getUser()
 
-    const { data: row, error: profileError } = await supabase
-        .from('profiles')
-        .select('saved_events')
-        .match({ id: user.id })
-        .single()
+    // CHECK IF CURRENT USER ID AND THE ID FROM REQUEST AND CURRENT USER ID RELATION EXISTS
+    const { data: relationData, error: relationError } = await supabase
+        .from('user_event_relations')
+        .select()
+        .match({ user_id: user.id, event_id: id })
 
-    if (profileError) {
-        console.log("failed to fetch user")
+    console.log("the variable that is checking whether the relation already exists ", relationData)
+
+    // IF THE USER AND EVENT RELATION ENTRY EXISTS THEN DELETE RELATION
+    if (relationData.length === 1) {
+        const { data: deleteRelationData, error } = await supabase
+            .from('user_event_relations')
+            .delete()
+            .match({ user_id: user.id, event_id: id })
+
+        return NextResponse.json({
+            'message': 'deleted the relation that existed'
+        })
     }
 
-    const { saved_events } = row // get saved_events array from profile
+    // IF THE USER AND EVENT RELATION ENTRY DOESNT EXIST THEN CREATE RELATION
+    if (relationData.length === 0) {
+        const { data: insertRelationData, error } = await supabase
+            .from('user_event_relations')
+            .insert([
+                { user_id: user.id, event_id: id }
+            ])
 
-    if (saved_events.includes(id)) {
-        // remove the event id from array as they already had it saved
-        const index = saved_events.indexOf(id)
-        saved_events.splice(index, 1)
-    } else {
-        // add the event id since they did not have it
-        saved_events.unshift(id)
+        return NextResponse.json({
+            'message': 'created the relation that did not exist'
+        })
     }
-
-    // update the user saved_events array
-    const { data, error } = await supabase
-        .from('profiles')
-        .update({ saved_events })
-        .match({ id: user.id })
-
-    if (error) {
-        console.log(error)
-    }
-
-    return NextResponse.json({
-        'message': 'Successfully updated'
-    })
 }

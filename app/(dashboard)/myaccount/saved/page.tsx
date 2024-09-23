@@ -51,7 +51,7 @@ function Saved({}: Props) {
         </div>
         {!loading ? (
           <div className="flex flex-col gap-y-8 my-4">
-            {savedEvents.length > 0 ? (
+            {savedEvents && savedEvents.length > 0 ? (
               savedEvents.map((event: IEvent, index: number) => (
                 <EventCard
                   key={index}

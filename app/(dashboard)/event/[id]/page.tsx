@@ -147,9 +147,12 @@ function Event({ params }: Props) {
               </Link>
             </div>
           </div>
-          <div className="my-10">
+          <div className="mt-8 grid grid-cols-2">
+            <div className="flex justify-center items-center">
+              <span>Share</span>
+            </div>
             {user && (
-              <div className="flex justify-end">
+              <div className="flex justify-center items-center">
                 <SaveEventBtn id={event.id} />
               </div>
             )}
