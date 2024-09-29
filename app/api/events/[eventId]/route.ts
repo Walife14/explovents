@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
-
+// GET SPECIFIC EVENT BY ID AND RETURN
 export async function GET(request: Request, context: any) {
     const { params } = context
     const supabase = createClient()

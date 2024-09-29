@@ -1,18 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import Calendar from "react-calendar";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+
+// actions
+import { createPendingEventOrder } from "./actions";
 
 // components
 import ImageGallery from "@components/ImageGallery/ImageGallery";
 import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
+import AvailableEventDates from "./AvailableEventDates";
+import SaveEventBtn from "@/app/components/SaveEventBtn/SaveEventBtn";
 
 // interfaces and types
 import { IEvent } from "@/app/interfaces/IEvent";
-import SaveEventBtn from "@/app/components/SaveEventBtn/SaveEventBtn";
 import { createClient } from "@/utils/supabase/client";
+import { IEventDate } from "@/app/interfaces/IEventDate";
 
 type Props = {
   params: { id: string };
@@ -21,10 +24,13 @@ type Props = {
 function Event({ params }: Props) {
   const [date, setDate] = useState<Date>(new Date());
   const [nOfTickets, setNOfTickets] = useState<number>(1);
+  const [nOfTicketsAvailable, setNOfTicketsAvailable] = useState<number>(null)
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [event, setEvent] = useState<IEvent | null>(null);
   const [user, setUser] = useState<boolean>(false);
+
+  const [selectedDate, setSelectedDate] = useState<IEventDate | null>(null);
 
   const supabase = createClient();
 
@@ -33,11 +39,12 @@ function Event({ params }: Props) {
       try {
         setLoading(true);
         const response = await fetch(`/api/events/${params.id}`, {
+          method: "GET",
           headers: {
-            Accept: "application/json",
-            method: "GET",
-          },
+            "Accept": "application/json"
+          }
         });
+
         if (response) {
           const eventData = await response.json();
           setEvent(eventData[0]);
@@ -61,13 +68,41 @@ function Event({ params }: Props) {
     checkIfUser();
   }, [params.id, supabase.auth]);
 
-  function customDate(date: string) {
-    // split the date by spaces returning an array of words
-    let parts = date.split(" ");
-    // remove the first word of the date (e.g. "Fri")
-    parts.shift();
-    // return the array words joined together adding a space in-between
-    return parts.join(" ");
+  const handleDateSelect = async (selectedDate) => {
+    // this will run to allow the confirm button to know which date has been selected for the user to buy.
+    // console.log("PARENT: the selected date is ", selectedDate)
+    setSelectedDate(selectedDate)
+
+    // verify to the frontend the number of tickets available for the user to buy
+    setNOfTicketsAvailable(selectedDate.tickets_available)
+  }
+
+  const handleConfirmClick = async () => {
+    if (selectedDate) {
+      try {
+        console.log(selectedDate.id)
+        const res = await createPendingEventOrder(selectedDate.id)
+
+        console.log("Order created successfully:", res)
+      } catch (error) {
+        console.log("Failed to create order: ", error)
+      }
+    } else {
+      console.log("No date selected")
+    }
+  }
+
+  const addOneMoreTicket = (): void => {
+    if (nOfTickets < nOfTicketsAvailable) {
+      setNOfTickets(nOfTickets + 1)
+    } else {
+    }
+  }
+
+  const removeOneMoreTicket = (): void => {
+    if (nOfTickets != 1) {
+      setNOfTickets(nOfTickets - 1)
+    }
   }
 
   return (
@@ -85,28 +120,15 @@ function Event({ params }: Props) {
               priority
             />
           </div>
-          <h1 className="text-primary my-8">{event.title.toUpperCase()}</h1>
-          <div className="grid grid-cols-2 gap-x-8 md:my-20">
-            <div
-              className="col-span-2 md:col-span-1 flex justify-center items-center"
-              id="calendar_container"
-            >
-              <Calendar
-                minDate={new Date()}
-                onClickDay={(e) => setDate(e)}
-                value={date}
-                maxDetail="month"
-              />
-            </div>
-            <div className="col-span-2 md:col-span-1 mt-8">
-              <h2 className="text-3xl font-bold text-center mb-10">
-                <span className="">Currently selected</span>
-                <br />
-                <span className="text-primary underline">
-                  {customDate(date.toDateString())}
-                </span>
-              </h2>
 
+          <h1 className="text-primary my-8">{event.title.toUpperCase()}</h1>
+
+          <div className="grid grid-cols-2 gap-x-8 md:my-20">
+            <div className="col-span-2 py-2 overflow-x-scroll">
+              <AvailableEventDates id={params.id} onDateSelect={handleDateSelect} />
+            </div>
+
+            <div className="col-span-2 md:col-span-1 mt-8">
               <h2 className="text-lg font-bold">When?</h2>
               <p>The event is on May 17th, starting at 4:00 PM.</p>
               <h2 className="text-lg font-bold">More info?</h2>
@@ -117,7 +139,7 @@ function Event({ params }: Props) {
                 venue directions and any additional information you may need.
               </p>
 
-              <div className="border border-dark-gray flex rounded-md font-bold mt-20">
+              <div className='border border-dark-gray flex rounded-md font-bold mt-20'>
                 <div className="flex items-center justify-center basis-3/4 py-2 px-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -135,16 +157,28 @@ function Event({ params }: Props) {
                   </svg>
                   <span className="text-center flex-1">N. of tickets</span>
                 </div>
-                <div className="basis-1/4 text-center border-l border-dark-gray py-2 px-4">
-                  <span className="text-3xl">{nOfTickets}</span>
+                <div className="basis-1/4 text-center py-2 px-4">
+                  <span className="text-3xl">{nOfTicketsAvailable ? nOfTickets : '-' }</span>
+                </div>
+                <div className="flex flex-col justify-center px-2">
+                  <button onClick={addOneMoreTicket}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                    </svg>
+                  </button>
+                  <button onClick={removeOneMoreTicket}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </button>
                 </div>
               </div>
-              <Link
-                className="text-white bg-secondary font-bold block text-center py-4 rounded-md mt-4 text-lg"
-                href="/"
+              <button
+                className="text-white bg-secondary font-bold block text-center py-4 rounded-md mt-4 text-lg w-full"
+                onClick={handleConfirmClick}
               >
                 CONFIRM
-              </Link>
+              </button>
             </div>
           </div>
           <div className="mt-8 grid grid-cols-2">
@@ -166,11 +200,10 @@ function Event({ params }: Props) {
                   className="aspect-square bg-blue-500 rounded-md overflow-hidden relative"
                 >
                   <Image
-                    className={`h-full object-cover ${
-                      index === event.event_images.slice(0, 4).length - 1
-                        ? "filter brightness-75"
-                        : ""
-                    }`}
+                    className={`h-full object-cover ${index === event.event_images.slice(0, 4).length - 1
+                      ? "filter brightness-75"
+                      : ""
+                      }`}
                     src={event.event_images[index]}
                     alt="test-image"
                     quality={100}
