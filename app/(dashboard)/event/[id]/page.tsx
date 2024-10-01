@@ -80,14 +80,38 @@ function Event({ params }: Props) {
   const handleConfirmClick = async () => {
     if (selectedDate) {
       try {
-        console.log(selectedDate.id)
-        const res = await createPendingEventOrder(selectedDate.id)
+        const res = await createPendingEventOrder(selectedDate.id, nOfTickets)
 
-        console.log("Order created successfully:", res)
+        if (res.success === true) { // if succesfully created pending event order
+          // console.log("success", res.orderId) // pending order created successfully with id
+          const stripeRes = await fetch('/api/tickets/create-checkout-session', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ orderId: res.orderId })
+          })
+
+          const json = await stripeRes.json()
+          
+          if (json.success) {
+            console.log(json.message)
+            // send them to the payment link
+            window.location.assign(json.url)
+          } else {
+            console.log(json.message)
+          }
+
+        }
+        if (res.success === false) {
+          console.log("Failed to place order ", res)
+        }
+
       } catch (error) {
         console.log("Failed to create order: ", error)
       }
     } else {
+      // TO ADD: Perhaps add a notification for the user that enables on this that lets them know to select an event option
       console.log("No date selected")
     }
   }
@@ -158,7 +182,7 @@ function Event({ params }: Props) {
                   <span className="text-center flex-1">N. of tickets</span>
                 </div>
                 <div className="basis-1/4 text-center py-2 px-4">
-                  <span className="text-3xl">{nOfTicketsAvailable ? nOfTickets : '-' }</span>
+                  <span className="text-3xl">{nOfTicketsAvailable ? nOfTickets : '-'}</span>
                 </div>
                 <div className="flex flex-col justify-center px-2">
                   <button onClick={addOneMoreTicket}>
