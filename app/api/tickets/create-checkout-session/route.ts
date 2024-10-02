@@ -28,8 +28,8 @@ export async function POST(req: NextRequest) {
                 quantity: 2,
             }],
             mode: 'payment',
-            success_url: `${req.headers.get('origin')}/payment/success?event_id=${1}`, // add the event id from the orderId
-            cancel_url: `${req.headers.get('origin')}/payment/cancel?event_id=${1}`,
+            success_url: `${req.headers.get('origin')}/payment/success/${1}`, // add the event id from the orderId
+            cancel_url: `${req.headers.get('origin')}/payment/cancelled/${2}`, // add the event id
         })
 
         // return the session id
