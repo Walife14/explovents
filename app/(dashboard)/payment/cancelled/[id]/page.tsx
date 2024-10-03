@@ -6,7 +6,7 @@ type Props = {
 }
 
 async function getEventById(eventId: string) {
-    const response = await fetch(`http://localhost:3000/api/events/${eventId}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventId}`, {
         method: 'GET',
     })
 
