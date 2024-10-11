@@ -18,7 +18,7 @@ Explovents is an event booking platform where users can explore, bookmark, and p
 -  **Stripe** (Payment Integration)
 -  **Tailwind CSS** (Styling)
 
-**Website URL**: [https://](https://explovents.vercel.app/)
+**Website URL**: [https://explovents.vercel.app/](https://explovents.vercel.app/) 
 
 Test Login Credentials
 Email: adam@email.com
