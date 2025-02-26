@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# **Explovents**
+Explovents is an event booking platform where users can explore, bookmark, and purchase tickets for events like boat parties, pool parties, and more. The platform supports both general users and event organisers, allowing organisers to create, manage, and promote events easily. This README covers the core features and functionality of the application.
 
-## Getting Started
+> [!NOTE]
+> Please note that Explovents is still a work in progress, with ongoing updates to graphics and new features being added.
 
-First, run the development server:
+## **Features**
+-  **Authentication**: Secure user registration and login.
+-  **Event Bookmarking/Saving System**: Users can save events to their favourites for easy access later.
+-  **Event Filtering**: Filter events by type (e.g., boat parties, pool parties) and location.
+-  **Payment System**: Integrated with Stripe for a secure and seamless checkout experience.
+-  **Event Organiser Section**: Dedicated area for event organisers to create and manage events, with future functionality to manage ticketing.
+-  **Ticketing System**: Issue tickets with QR code verification for organisers (Feature under development).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## **Tech Stack**
+-  **Next.js** (Frontend)
+-  **Supabase** (Backend & Database)
+-  **Stripe** (Payment Integration)
+-  **Tailwind CSS** (Styling)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Website URL**: [https://explovents.vercel.app/](https://explovents.vercel.app/) 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Test Login Credentials
+Email: adam@email.com
+Password: 123456
