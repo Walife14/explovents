@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
         const { data: eventOrder, error } = await getOrderDetails(orderId);
 
         // if pending order doesnt exist throw error
+        // **Also can add a uid to pending event order, and confirm that it matches currently authed user**
         if (error) {
             return NextResponse.json({ success: false, url: null, message: error.message });
         }

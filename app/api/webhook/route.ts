@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
         console.log("event", event?.type)
 
-        // const response: any = await registerPayment(
+        // const response: any = await registerPayment(   ->>> create a func that will interact with the backend and send that data over
         //     res?.data?.object?.billing_details?.email, // email
         //     res?.data?.object?.amount, // amount
         //     JSON.stringify(res), // payment info
