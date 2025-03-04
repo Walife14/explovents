@@ -10,6 +10,9 @@ import Link from "next/link";
 import { Bowlby_One_SC } from "next/font/google";
 import { logout } from "@/app/(auth)/actions";
 
+// icons
+import { Bars2Icon } from '@heroicons/react/24/solid'
+
 const bowlby = Bowlby_One_SC({
   subsets: ["latin"],
   weight: "400",
@@ -116,10 +119,11 @@ function Navbar({}: Props) {
                             setIsMyAccountNavOpen(!isMyAccountNavOpen)
                           }
                           className={`${
-                            isMyAccountNavOpen && "text-primary"
+                            isMyAccountNavOpen && "text-dark-gray outline-none"
                           } transition-colors duration-100`}
+                          aria-label={isMyAccountNavOpen ? 'Close Menu' : 'Open Menu'}
                         >
-                          My Account
+                          <Bars2Icon className="size-6" />
                         </button>
                         <div
                           className={`absolute w-screen -mr-4 md:w-max md:min-w-[300px] right-0 p-4 ${
