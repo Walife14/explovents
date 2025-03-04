@@ -13,6 +13,7 @@ type Props = {
     otherPartyEventChecked?: boolean
   ) => void;
   btnText?: string;
+  limitBtnWidth?: boolean;
   includeEventTypes?: boolean;
   hasCountry?: string;
   hasCity?: string;
@@ -32,6 +33,7 @@ const locations = {
 function CountryCityDates({
   handleSubmit,
   btnText,
+  limitBtnWidth,
   includeEventTypes,
   hasCountry,
   hasCity,
@@ -116,9 +118,8 @@ function CountryCityDates({
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
     const day = today.getDate();
-    return `${year}-${month < 10 ? "0" + month : month}-${
-      day < 10 ? "0" + day : day
-    }`;
+    return `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day
+      }`;
   }
 
   return (
@@ -256,41 +257,41 @@ function CountryCityDates({
         </div>
       </div>
       {includeEventTypes && (
-        <div className="flex flex-wrap md:flex-nowrap gap-x-4 gap-y-2 text-dark-gray mt-4">
+        <div className="grid grid-cols-2 my-2 gap-1 md:flex md:gap-x-2">
           {options.map((option) => (
-            <label key={option.value}>
-              <input
-                type="checkbox"
-                name={option.value}
-                checked={option.eventChecked}
-                onClick={option.toggleChecked}
-                onChange={() => {}}
-                className="hidden peer"
-              />
-              <span className="select-none text-center cursor-pointer py-1 px-2 md:py-2 md:px-8 rounded-full border border-dark-gray peer-checked:border-transparent peer-checked:bg-secondary peer-checked:text-white">
-                {option.text}
-              </span>
-            </label>
+              <label key={option.value}>
+                <input
+                  type="checkbox"
+                  name={option.value}
+                  checked={option.eventChecked}
+                  onClick={option.toggleChecked}
+                  onChange={() => { }}
+                  className="hidden peer"
+                />
+                <span className="text-center peer-checked:bg-dark-gray peer-checked:text-gray-100 shadow-md md:py-2 md:px-4 cursor-pointer select-none">
+                  {option.text}
+                </span>
+              </label>
           ))}
-          <button
+          {/* TOGGLES all the events, needs to be better fine tuned */}
+          {/* <button
             type="button"
             className="underline text-secondary"
             onClick={toggleSelectedEvents}
           >
             Toggle All Events
-          </button>
+          </button> */}
         </div>
       )}
       <div
-        className={`w-72 ${
-          includeEventTypes ? "" : "w-full text-center mt-4 md:mt-10"
-        }`}
+        className={`w-72 mx-auto md:mx-0 ${includeEventTypes ? "" : "w-full text-center mt-4 md:mt-10"
+          }`}
       >
         <Button
           text={btnText ? btnText : "Search"}
           type="submit"
           largeText={true}
-          nonFullWidth={true}
+          nonFullWidth={limitBtnWidth}
         />
       </div>
     </form>

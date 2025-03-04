@@ -49,7 +49,7 @@ function Search({}: Props) {
         <h1 className="text-3xl font-black text-center mb-20">
           We&apos;ve got you covered
         </h1>
-        <CountryCityDates handleSubmit={handleSubmit} />
+        <CountryCityDates handleSubmit={handleSubmit} limitBtnWidth={true} />
       </div>
 
       <div className="flex justify-evenly text-center font-semibold text-lg">
