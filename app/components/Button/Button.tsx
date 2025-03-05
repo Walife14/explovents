@@ -4,9 +4,10 @@ type Props = {
   largeText?: boolean;
   nonFullWidth?: boolean;
   disabled?: boolean;
+  onClick?: () => void;
 };
 
-function Button({ text, largeText, nonFullWidth, type, disabled }: Props) {
+function Button({ text, largeText, nonFullWidth, type, disabled, onClick }: Props) {
   return (
     <button
       className={`bg-secondary font-semibold text-white py-2 my-4 rounded-md transition-all hover:scale-[1.05] hover:bg-secondary-dark active:scale-[0.98] active:bg-secondary-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary disabled:bg-dark-gray
@@ -15,6 +16,7 @@ function Button({ text, largeText, nonFullWidth, type, disabled }: Props) {
       }`}
       type={type || "button"}
       disabled={disabled || false}
+      onClick={onClick}
     >
       {text}
     </button>

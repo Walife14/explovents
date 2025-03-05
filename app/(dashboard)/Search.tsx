@@ -1,15 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-// components
-import CountryCityDates from "../components/CountryCityDates/CountryCityDates";
-
 // images
-import arrows_graphic from "@/public/images/pages/home/arrows-graphic.svg";
+import Button from "../components/Button/Button";
 
 // countries and cities we work with so far ** TEST DATA SO FAR **
 const locations = {
@@ -24,17 +20,23 @@ function Search({ }: Props) {
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [selectedCity, setSelectedCity] = useState<string | null>(null)
+  const [selectedDateRange, setSelectedDateRange] = useState<any>(true)
   const router = useRouter();
 
-  const handleSubmit = async (
-    e: React.FormEvent,
-    country: string,
-    city: string,
-    selectedDate: any
-  ) => {
-    e.preventDefault();
+  // const handleSubmit = async (
+  //   e: React.FormEvent,
+  //   country: string,
+  //   city: string,
+  //   // selectedDate: any
+  // ) => {
+  //   e.preventDefault();
 
-    // need to add pagination, selected event_types and date to string in future
+  //   // need to add pagination, selected event_types and date to string in future
+  //   router.push(`/explore?country=${country}&city=${city}`);
+  // };
+
+  const handleSubmit = (country: string, city: string) => {
+    // Navigate to the new page with query parameters
     router.push(`/explore?country=${country}&city=${city}`);
   };
 
@@ -49,7 +51,7 @@ function Search({ }: Props) {
       style={{ height: `calc(100svh - ${headerHeight}px)` }}
     >
       <div>
-        <h1 className="text-3xl font-black text-center mb-8 md:mb-20">
+        <h1 className="text-3xl font-black text-center mb-8">
           We&apos;ve got you covered
         </h1>
       </div>
@@ -96,6 +98,19 @@ function Search({ }: Props) {
           {selectedCity && (
             <div>
               <h2 className="text-center">Date Range Picker | To Be Added Soon</h2>
+            </div>
+          )}
+          {/* search button */}
+          {selectedCity && (
+            <div className="mx-auto w-3/4 md:mx-0 md:w-2/5">
+              <Button
+                text="Find Events"
+                onClick={() => {
+                  if (selectedCountry && selectedCity) {
+                    handleSubmit(selectedCountry, selectedCity);
+                  }
+                }}
+              />
             </div>
           )}
         </div>
