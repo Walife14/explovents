@@ -42,22 +42,26 @@ function AvailableEventDates({ id, onDateSelect }: Props) {
 
     return (
         <ul className='flex gap-x-4'>
-            {eventDates.map((e: IEventDate) => (
-                <li key={e.id}>
-                    <button
-                        className={`flex flex-col items-center px-2 py-4 gap-y-2 h-full w-full border-2 rounded-xl border-green-500
-                            disabled:bg-dark-gray/50 disabled:border-dark-gray/50 disabled:text-white
-                            ${selectedDate === e.id && 'bg-green-500 text-white'}`
-                        }
-                        disabled={e.tickets_sold === e.tickets_available}
-                        onClick={() => {setSelecetedDate(e.id); onDateSelect(e)}}
-                        type="button"
-                    >
-                        <span className='text-nowrap'>{e.date.split('-')[2]}/{e.date.split('-')[1]}/{e.date.split('-')[0]}</span>
-                        <span>{e.tickets_sold < e.tickets_available ? 'Available' : 'Unavailable' }</span>
-                    </button>
-                </li>
-            ))}
+            {eventDates.length > 0 ?
+                eventDates.map((e: IEventDate) => (
+                    <li key={e.id}>
+                        <button
+                            className={`${selectedDate === e.id && 'bg-dark-gray text-white'} border border-dark-gray px-4 py-2 shadow-md rounded-md flex flex-col`}
+                            disabled={e.tickets_sold === e.tickets_available}
+                            onClick={() => { setSelecetedDate(e.id); onDateSelect(e) }}
+                            type="button"
+                        >
+                            <span className='text-nowrap'>{e.date.split('-')[2]}/{e.date.split('-')[1]}/{e.date.split('-')[0]}</span>
+                            {/* Need to add a check to make sure that if for example only 2 tickets are available
+                                The user then shouldn't be able to buy 3 tickets */}
+                            <span>{e.tickets_available >= 1 ? 'Available' : 'Unavailable'}</span>
+                        </button>
+                    </li>
+                )) :
+                    <li>
+                        Could not find any available event dates
+                    </li>
+                }
         </ul>
     )
 }

@@ -49,6 +49,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 h1 {
     @apply text-3xl font-bold
 }
+
 h2 {
     @apply text-2xl font-bold
 }
@@ -88,3 +89,14 @@ footer {
 .react-calendar__tile--active {
     @apply text-white font-bold bg-primary
 }
+
+/* scrollbar */
+/* Hide scrollbar but keep scrolling */
+/* .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+} */

@@ -93,7 +93,7 @@ function Event({ params }: Props) {
           })
 
           const json = await stripeRes.json()
-          
+
           if (json.success) {
             console.log(json.message)
             // send them to the payment link
@@ -133,26 +133,23 @@ function Event({ params }: Props) {
     <main className="mx-4 md:w-5/6 md:mx-auto">
       {!loading ? (
         <>
-          <div className="mx-auto relative h-32 md:h-60 flex items-center overflow-hidden">
-            <Image
-              className="w-auto h-full object-cover object-center"
-              src={event.banner_image}
-              alt={event.title + " event."}
-              quality={100}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              fill
-              priority
-            />
-          </div>
-
-          <h1 className="text-primary my-8">{event.title.toUpperCase()}</h1>
-
-          <div className="grid grid-cols-2 gap-x-8 md:my-20">
-            <div className="col-span-2 py-2 overflow-x-scroll">
-              <AvailableEventDates id={params.id} onDateSelect={handleDateSelect} />
+          <div className="grid md:grid-cols-2 gap-x-4">
+            {/* <div className="mx-auto relative h-32 md:h-60 flex items-center overflow-hidden"> */}
+            <div className="relative flex-1 md:order-2 h-[10vh] md:h-auto">
+              <Image
+                className="w-auto h-full object-cover object-center"
+                src={event.banner_image}
+                alt={event.title + " event."}
+                quality={100}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                fill
+                priority
+              />
             </div>
 
-            <div className="col-span-2 md:col-span-1 mt-8">
+            {/* <div className="grid grid-cols-2 gap-x-8 md:my-10"> */}
+            <div className="flex flex-col gap-y-2 md:order-1 overflow-x-hidden">
+              <h1 className="text-primary col-span-2 md:col-span-1">{event.title.toUpperCase()}</h1>
               <h2 className="text-lg font-bold">When?</h2>
               <p>The event is on May 17th, starting at 4:00 PM.</p>
               <h2 className="text-lg font-bold">More info?</h2>
@@ -163,7 +160,11 @@ function Event({ params }: Props) {
                 venue directions and any additional information you may need.
               </p>
 
-              <div className='border border-dark-gray flex rounded-md font-bold mt-20'>
+              <div className="col-span-2 py-2 overflow-x-scroll">
+                <AvailableEventDates id={params.id} onDateSelect={handleDateSelect} />
+              </div>
+
+              <div className='border border-dark-gray flex rounded-md font-bold mt-4'>
                 <div className="flex items-center justify-center basis-3/4 py-2 px-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -197,6 +198,7 @@ function Event({ params }: Props) {
                   </button>
                 </div>
               </div>
+
               <button
                 className="text-white bg-secondary font-bold block text-center py-4 rounded-md mt-4 text-lg w-full"
                 onClick={handleConfirmClick}
@@ -216,7 +218,7 @@ function Event({ params }: Props) {
             )}
           </div>
           <div className="my-20">
-            <h2 className="text-3xl text-primary font-bold">Gallery</h2>
+            <h2 className="text-3xl text-primary font-bold mb-4">Gallery</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-x-8">
               {event.event_images.slice(0, 4).map((img, index) => (
                 <div
