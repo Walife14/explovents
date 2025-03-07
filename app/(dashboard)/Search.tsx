@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { DateRange } from 'react-date-range';
 
 // images
 import Button from "../components/Button/Button";
@@ -20,24 +21,22 @@ function Search({ }: Props) {
   const [headerHeight, setHeaderHeight] = useState<number>(0);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
   const [selectedCity, setSelectedCity] = useState<string | null>(null)
-  const [selectedDateRange, setSelectedDateRange] = useState<any>(true)
+  const [dateSelected, setDateSelected] = useState<any>([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: 'selection'
+    }
+  ])
   const router = useRouter();
 
-  // const handleSubmit = async (
-  //   e: React.FormEvent,
-  //   country: string,
-  //   city: string,
-  //   // selectedDate: any
-  // ) => {
-  //   e.preventDefault();
-
-  //   // need to add pagination, selected event_types and date to string in future
-  //   router.push(`/explore?country=${country}&city=${city}`);
-  // };
-
-  const handleSubmit = (country: string, city: string) => {
+  const handleSubmit = async (country: string, city: string, dateSelected: any) => {
     // Navigate to the new page with query parameters
-    router.push(`/explore?country=${country}&city=${city}`);
+
+    // Set loading true to here to add loading state to button/page
+    const startDate = dateSelected[0].startDate
+    const endDate = dateSelected[0].endDate
+    router.push(`/explore?country=${country}&city=${city}&startDate=${startDate}&endDate=${endDate}`);
   };
 
   useEffect(() => {
@@ -97,7 +96,19 @@ function Search({ }: Props) {
           {/* part 3 - select the date range */}
           {selectedCity && (
             <div>
-              <h2 className="text-center">Date Range Picker | To Be Added Soon</h2>
+              <h2 className="text-center md:text-left">What days will you be out there?</h2>
+              <div className='flex justify-center md:justify-normal'>
+                <DateRange
+                  onChange={(item: any) => setDateSelected([item.selection])}
+                  ranges={dateSelected}
+                  moveRangeOnFirstSelection={false}
+                  showMonthAndYearPickers={false}
+                  showDateDisplay={false}
+                  editableDateInputs={true}
+                  color="#0e0e0e"
+                  rangeColors={['#444444']}
+                />
+              </div>
             </div>
           )}
           {/* search button */}
@@ -106,8 +117,8 @@ function Search({ }: Props) {
               <Button
                 text="Find Events"
                 onClick={() => {
-                  if (selectedCountry && selectedCity) {
-                    handleSubmit(selectedCountry, selectedCity);
+                  if (selectedCountry && selectedCity && dateSelected) {
+                    handleSubmit(selectedCountry, selectedCity, dateSelected);
                   }
                 }}
               />

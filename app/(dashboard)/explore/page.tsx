@@ -21,6 +21,8 @@ function Explore({}: Props) {
   const [checkboxError, setCheckboxError] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>(null);
   const [selectedCity, setSelectedCity] = useState<string>(null);
+  const [selectedStartDate, setSelectedStartDate] = useState<any>(null);
+  const [selectedEndDate, setSelectedEndDate] = useState<any>(null);
   const [numberOfEventsFound, setNumberOfEventsFound] = useState<number | null>(
     null
   );
@@ -34,7 +36,9 @@ function Explore({}: Props) {
     boatPartyEventChecked?: boolean,
     poolPartyEventChecked?: boolean,
     beachPartyEventChecked?: boolean,
-    otherPartyEventChecked?: boolean
+    otherPartyEventChecked?: boolean,
+    startDate?: any,
+    endDate?: any,
   ) => {
     try {
       setLoading(true);
@@ -46,6 +50,10 @@ function Explore({}: Props) {
           beachPartyEventChecked ? "&beachparty=true" : ""
         }${otherPartyEventChecked ? "&otherparty=true" : ""}`;
       }
+      if (startDate && endDate) {
+          q = `${q}&startDate=${startDate}&endDate=${endDate}`
+      }
+
       const response = await fetch(`/api/events${q}`, {
         headers: {
           Accept: "application/json",
@@ -68,11 +76,13 @@ function Explore({}: Props) {
   useEffect(() => {
     const country = searchParams.get("country");
     const city = searchParams.get("city");
+    const startDate = searchParams.get("startDate")
+    const endDate = searchParams.get("endDate")
 
     if (country && city) {
       setSelectedCity(city);
       setSelectedCountry(country);
-      fetchEvents(country, city, true, true, true, true);
+      fetchEvents(country, city, true, true, true, true, startDate, endDate);
     } else {
       fetchEvents();
     }
@@ -82,11 +92,12 @@ function Explore({}: Props) {
     e: React.FormEvent,
     country: string,
     city: string,
-    selectedDate: any,
     boatPartyEventChecked: boolean,
     poolPartyEventChecked: boolean,
     beachPartyEventChecked: boolean,
-    otherPartyEventChecked: boolean
+    otherPartyEventChecked: boolean,
+    startDate: any,
+    endDate: any,
   ) => {
     e.preventDefault();
     setCheckboxError("");
@@ -109,10 +120,14 @@ function Explore({}: Props) {
       boatPartyEventChecked,
       poolPartyEventChecked,
       beachPartyEventChecked,
-      otherPartyEventChecked
+      otherPartyEventChecked,
+      startDate,
+      endDate,
     );
     setSelectedCity(city);
     setSelectedCountry(country);
+    setSelectedStartDate(startDate);
+    setSelectedEndDate(endDate);
 
     // alter the url query to match new search param
     const params = new URLSearchParams(searchParams);
@@ -125,7 +140,7 @@ function Explore({}: Props) {
   return (
     <main>
       <div className={`mx-4 md:w-5/6 md:mx-auto`}>
-        <CountryCityDates
+        {/* <CountryCityDates
           handleSubmit={handleSubmit}
           btnText="Update"
           includeEventTypes={true}
@@ -135,7 +150,7 @@ function Explore({}: Props) {
           hasBoatPartyEventChecked={true}
           hasOtherPartyEventChecked={true}
           hasPoolPartyEventChecked={true}
-        />
+        /> */}
 
         {checkboxError && (
           <div className="flex items-center text-error border-2 border-dark-gray/50 rounded-full p-2 gap-x-4 mb-4">
