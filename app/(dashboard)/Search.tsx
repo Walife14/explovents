@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { DateRange } from 'react-date-range';
+import { DateRange } from "react-date-range";
 
 // images
 import Button from "../components/Button/Button";
@@ -17,26 +17,32 @@ const locations = {
 
 type Props = {};
 
-function Search({ }: Props) {
+function Search({}: Props) {
   const [headerHeight, setHeaderHeight] = useState<number>(0);
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null)
-  const [selectedCity, setSelectedCity] = useState<string | null>(null)
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [dateSelected, setDateSelected] = useState<any>([
     {
       startDate: new Date(),
       endDate: new Date(),
-      key: 'selection'
-    }
-  ])
+      key: "selection",
+    },
+  ]);
   const router = useRouter();
 
-  const handleSubmit = async (country: string, city: string, dateSelected: any) => {
+  const handleSubmit = async (
+    country: string,
+    city: string,
+    dateSelected: any
+  ) => {
     // Navigate to the new page with query parameters
 
     // Set loading true to here to add loading state to button/page
-    const startDate = dateSelected[0].startDate
-    const endDate = dateSelected[0].endDate
-    router.push(`/explore?country=${country}&city=${city}&startDate=${startDate}&endDate=${endDate}`);
+    const startDate = dateSelected[0].startDate;
+    const endDate = dateSelected[0].endDate;
+    router.push(
+      `/explore?country=${country}&city=${city}&startDate=${startDate}&endDate=${endDate}`
+    );
   };
 
   useEffect(() => {
@@ -59,13 +65,24 @@ function Search({ }: Props) {
         <div className="flex flex-col gap-y-8 md:gap-y-4">
           {/* part 1 - select the country */}
           <div className="space-y-2">
-            <h2 className={`${selectedCountry && 'text-base text-dark-gray'} text-center md:text-left transition-all duration-200`}>What country are you going to?</h2>
+            <h2
+              className={`${
+                selectedCountry && "text-base text-dark-gray"
+              } text-center md:text-left transition-all duration-200`}
+            >
+              What country are you going to?
+            </h2>
             <ul className="flex justify-center md:justify-normal gap-x-4">
               {Object.entries(locations).map(([country]) => (
                 <li key={country}>
                   <button
-                    className={`${selectedCountry === country && 'bg-dark-gray text-white'} px-4 py-2 shadow-md rounded-md`}
-                    onClick={() => { setSelectedCountry(country); setSelectedCity(null) }}
+                    className={`${
+                      selectedCountry === country && "bg-dark-gray text-white"
+                    } px-4 py-2 shadow-md rounded-md`}
+                    onClick={() => {
+                      setSelectedCountry(country);
+                      setSelectedCity(null);
+                    }}
                   >
                     <span>{country}</span>
                   </button>
@@ -77,12 +94,20 @@ function Search({ }: Props) {
           {/* part 2 - select the city */}
           {selectedCountry && (
             <div className="space-y-2">
-              <h2 className={`${selectedCity && 'text-base text-dark-gray'} text-center md:text-left transition-all duration-200`}>And the city?</h2>
+              <h2
+                className={`${
+                  selectedCity && "text-base text-dark-gray"
+                } text-center md:text-left transition-all duration-200`}
+              >
+                And the city?
+              </h2>
               <ul className="flex justify-center md:justify-normal gap-x-4">
                 {locations[selectedCountry].map((city: string) => (
                   <li key={city}>
                     <button
-                      className={`${selectedCity === city && 'bg-dark-gray text-white'} px-4 py-2 shadow-md rounded-md`}
+                      className={`${
+                        selectedCity === city && "bg-dark-gray text-white"
+                      } px-4 py-2 shadow-md rounded-md`}
                       onClick={() => setSelectedCity(city)}
                     >
                       <span>{city}</span>
@@ -96,8 +121,10 @@ function Search({ }: Props) {
           {/* part 3 - select the date range */}
           {selectedCity && (
             <div>
-              <h2 className="text-center md:text-left">What days will you be out there?</h2>
-              <div className='flex justify-center md:justify-normal'>
+              <h2 className="text-center md:text-left">
+                What days will you be out there?
+              </h2>
+              <div className="flex justify-center md:justify-normal">
                 <DateRange
                   onChange={(item: any) => setDateSelected([item.selection])}
                   ranges={dateSelected}
@@ -106,7 +133,7 @@ function Search({ }: Props) {
                   showDateDisplay={false}
                   editableDateInputs={true}
                   color="#0e0e0e"
-                  rangeColors={['#444444']}
+                  rangeColors={["#444444"]}
                 />
               </div>
             </div>
