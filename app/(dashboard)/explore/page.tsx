@@ -63,6 +63,7 @@ function Explore({}: Props) {
 
       if (response) {
         const eventsData = await response.json();
+        console.log(eventsData.events)
         setEvents(eventsData.events);
         setNumberOfEventsFound(eventsData.count);
       }
@@ -82,6 +83,10 @@ function Explore({}: Props) {
     if (country && city) {
       setSelectedCity(city);
       setSelectedCountry(country);
+      if (startDate && endDate) {
+        setSelectedStartDate(startDate)
+        setSelectedEndDate(endDate)
+      }
       fetchEvents(country, city, true, true, true, true, startDate, endDate);
     } else {
       fetchEvents();

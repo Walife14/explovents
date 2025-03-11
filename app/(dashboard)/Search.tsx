@@ -40,8 +40,11 @@ function Search({}: Props) {
     // Set loading true to here to add loading state to button/page
     const startDate = dateSelected[0].startDate;
     const endDate = dateSelected[0].endDate;
+
+    let formattedStartDate = startDate.toISOString().split('T')[0];
+    let formattedEndDate = endDate.toISOString().split('T')[0];
     router.push(
-      `/explore?country=${country}&city=${city}&startDate=${startDate}&endDate=${endDate}`
+      `/explore?country=${country}&city=${city}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`
     );
   };
 
