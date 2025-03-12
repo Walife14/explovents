@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import NumberedCard from "./NumberedCard";
 import { motion } from "framer-motion";
 import useWindowSize from "@hooks/useWindowSize";
 
 // components
 import Search from "./Search";
+import LinkBtn from "@components/LinkBtn/LinkBtn"
 
 type Props = {};
 
@@ -53,15 +53,10 @@ function Home({}: Props) {
         </motion.div>
       </div>
       <div className="my-20 md:my-40 flex flex-col items-center justify-center">
-        <h2 className="text-3xl font-bold mb-4 text-center mx-4 md:mx-auto">
+        <h2 className="font-bold mb-4 text-center mx-4 md:mx-auto">
           Want to make unforgettable experiences?
         </h2>
-        <Link
-          className="bg-secondary font-semibold text-white py-2 rounded-md px-8 text-2xl"
-          href="/explore"
-        >
-          Discover Events
-        </Link>
+        <LinkBtn text={"Discover Events"} href={"/explore"} />
       </div>
     </main>
   );

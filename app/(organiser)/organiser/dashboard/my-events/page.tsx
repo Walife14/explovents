@@ -15,13 +15,13 @@ function page({ }: Props) {
                             <p>Status: <span className='font-semibold text-green-600'>Active</span></p>
                         </div>
                     </div>
-                    <div className='grid grid-cols-2 gap-y-2 gap-x-4 py-2'>
+                    {/* <div className='grid grid-cols-2 gap-y-2 gap-x-4 py-2'>
                         <LinkBtn text={'Edit'} href={'/'}></LinkBtn>
                         <LinkBtn text={'View'} href={'/'} transparent></LinkBtn>
                         <div className='col-span-2'>
                             <LinkBtn text={'Analytics'} href={'/'} disabled></LinkBtn>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div>
@@ -31,13 +31,13 @@ function page({ }: Props) {
                             <p>Status: <span className='font-semibold text-red-600'>Inactive</span></p>
                         </div>
                     </div>
-                    <div className='grid grid-cols-2 gap-x-4 gap-y-2 py-2'>
+                    {/* <div className='grid grid-cols-2 gap-x-4 gap-y-2 py-2'>
                         <LinkBtn text={'Edit'} href={'/'}></LinkBtn>
                         <LinkBtn text={'View'} href={'/'} transparent></LinkBtn>
                         <div className='col-span-2'>
                             <LinkBtn text={'Analytics'} href={'/'} disabled></LinkBtn>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

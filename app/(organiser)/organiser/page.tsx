@@ -12,8 +12,8 @@ function page({ }: Props) {
                 <h1 className='text-center'>Welcome to Explovents Organiser Hub</h1>
 
                 <div className='flex flex-col gap-y-2 my-10'>
-                    <LinkBtn text={'Apply for Organiser Account'} textxl={true} href='/organiser/register'></LinkBtn>
-                    <LinkBtn text={'Login to Organiser Account'} href='/organiser/login' textxl transparent></LinkBtn>
+                    {/* <LinkBtn text={'Apply for Organiser Account'} textxl={true} href='/organiser/register'></LinkBtn> */}
+                    {/* <LinkBtn text={'Login to Organiser Account'} href='/organiser/login' textxl transparent></LinkBtn> */}
                 </div>
 
                 <div>

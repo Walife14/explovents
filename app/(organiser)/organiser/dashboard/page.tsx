@@ -9,7 +9,7 @@ function page({}: Props) {
   return (
     <div className='px-4'>
         <h1>Welcome back, Red Boat Party!</h1>
-        <ul className='my-4 flex flex-col gap-y-4'>
+        {/* <ul className='my-4 flex flex-col gap-y-4'>
             <li>
                 <LinkBtn text={'My Events'} href={'dashboard/my-events'}></LinkBtn>
             </li>
@@ -25,7 +25,7 @@ function page({}: Props) {
             <li>
                 <LinkBtn text={'Help/Resources'} href={'dashboard/help'}></LinkBtn>
             </li>
-        </ul>
+        </ul> */}
     </div>
   )
 }
