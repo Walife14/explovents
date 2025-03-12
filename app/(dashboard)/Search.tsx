@@ -5,8 +5,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { DateRange } from "react-date-range";
 
-// images
+// components
 import Button from "../components/Button/Button";
+
+// // images
+// import boat_image from "@/public/images/pages/home/boat-on-water.jpg"
 
 // countries and cities we work with so far ** TEST DATA SO FAR **
 const locations = {
@@ -17,14 +20,15 @@ const locations = {
 
 type Props = {};
 
-function Search({}: Props) {
+function Search({ }: Props) {
   const [headerHeight, setHeaderHeight] = useState<number>(0);
+  const [isMediumScreen, setIsMediumScreen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [dateSelected, setDateSelected] = useState<any>([
+  const [dateSelected, setDateSelected] = useState<[{ startDate: Date | null, endDate: Date | null, key: string }]>([
     {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: null,
+      endDate: null,
       key: "selection",
     },
   ]);
@@ -51,27 +55,31 @@ function Search({}: Props) {
   useEffect(() => {
     const header = document.querySelector("header");
     setHeaderHeight(header.offsetHeight);
+
+    const handleResize = () => {
+      setIsMediumScreen(window.innerWidth >= 768)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+
+    // cleanup
+    return () => window.removeEventListener('resize', handleResize)
   }, []);
 
   return (
     <div
-      className="px-4 md:w-5/6 md:mx-auto flex flex-col"
-      style={{ height: `calc(100svh - ${headerHeight}px)` }}
+      className="relative px-4 md:w-5/6 md:mx-auto flex flex-col"
+      style={isMediumScreen ? { height: `calc(100svh - ${headerHeight}px)` } : { minHeight: `calc(100svh - ${headerHeight}px)` }}
     >
-      <div>
-        <h1 className="text-3xl font-black text-center mb-8">
-          We&apos;ve got you covered
-        </h1>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-        <div className="flex flex-col gap-y-8 md:gap-y-4">
+      <div className="bg-boat-on-water bg-cover w-full h-full absolute left-0 top-0 -z-10 opacity-70"></div>
+      <div className="h-full md:overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* part 1 - select the country */}
-          <div className="space-y-2">
+          <div className="md:col-span-2 flex flex-col items-center gap-y-2">
             <h2
-              className={`${
-                selectedCountry && "text-base text-dark-gray"
-              } text-center md:text-left transition-all duration-200`}
+              className={`${selectedCountry && "text-base text-dark-gray"
+                } text-center md:text-left transition-all duration-200`}
             >
               What country are you going to?
             </h2>
@@ -79,9 +87,8 @@ function Search({}: Props) {
               {Object.entries(locations).map(([country]) => (
                 <li key={country}>
                   <button
-                    className={`${
-                      selectedCountry === country && "bg-dark-gray text-white"
-                    } px-4 py-2 shadow-md rounded-md`}
+                    className={`${selectedCountry === country && "bg-dark-gray text-white"
+                      } px-4 py-2 shadow-md rounded-md`}
                     onClick={() => {
                       setSelectedCountry(country);
                       setSelectedCity(null);
@@ -96,11 +103,10 @@ function Search({}: Props) {
 
           {/* part 2 - select the city */}
           {selectedCountry && (
-            <div className="space-y-2">
+            <div className="md:col-span-2 flex flex-col items-center gap-y-2">
               <h2
-                className={`${
-                  selectedCity && "text-base text-dark-gray"
-                } text-center md:text-left transition-all duration-200`}
+                className={`${selectedCity && "text-base text-dark-gray"
+                  } text-center md:text-left transition-all duration-200`}
               >
                 And the city?
               </h2>
@@ -108,9 +114,8 @@ function Search({}: Props) {
                 {locations[selectedCountry].map((city: string) => (
                   <li key={city}>
                     <button
-                      className={`${
-                        selectedCity === city && "bg-dark-gray text-white"
-                      } px-4 py-2 shadow-md rounded-md`}
+                      className={`${selectedCity === city && "bg-dark-gray text-white"
+                        } px-4 py-2 shadow-md rounded-md`}
                       onClick={() => setSelectedCity(city)}
                     >
                       <span>{city}</span>
@@ -123,8 +128,12 @@ function Search({}: Props) {
 
           {/* part 3 - select the date range */}
           {selectedCity && (
-            <div>
-              <h2 className="text-center md:text-left">
+            <div className="md:col-span-4 flex flex-col items-center">
+              {/* <h2 className="text-center md:text-left"> */}
+              <h2
+                className={`${(dateSelected[0].startDate && dateSelected[0].endDate ) && "text-base text-dark-gray"
+                  } text-center md:text-left transition-all duration-200`}
+              >
                 What days will you be out there?
               </h2>
               <div className="flex justify-center md:justify-normal">
@@ -136,14 +145,15 @@ function Search({}: Props) {
                   showDateDisplay={false}
                   editableDateInputs={true}
                   color="#0e0e0e"
-                  rangeColors={["#444444"]}
+                  rangeColors={!dateSelected[0].startDate && !dateSelected[0].endDate ? ["#b3b3b3"] : ["#444444"]}
+                  minDate={new Date()} // makes it so that past dates are unselectable
                 />
               </div>
             </div>
           )}
           {/* search button */}
-          {selectedCity && (
-            <div className="mx-auto w-3/4 md:mx-0 md:w-2/5">
+          {selectedCountry && selectedCity && (dateSelected[0].startDate && dateSelected[0].endDate) && (
+            <div className="md:col-span-4 mx-auto w-3/4 md:w-1/4">
               <Button
                 text="Find Events"
                 onClick={() => {
@@ -155,14 +165,14 @@ function Search({}: Props) {
             </div>
           )}
         </div>
-        <div className="relative hidden md:flex">
+        {/* <div className="relative hidden md:flex">
           <Image
             className="object-cover"
             src="/images/pages/home/pool-party-event.png"
             alt="Pool party event"
             fill
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

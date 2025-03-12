@@ -24,6 +24,9 @@ const config: Config = {
         'dark-gray': '#444444',
         'charcoal': '#181818',
         'error': '#FF453A'
+      },
+      backgroundImage: {
+        'boat-on-water': "url('/images/pages/home/boat-on-water.png')"
       }
     },
   },
