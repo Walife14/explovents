@@ -8,9 +8,6 @@ import { DateRange } from "react-date-range";
 // components
 import Button from "../components/Button/Button";
 
-// // images
-// import boat_image from "@/public/images/pages/home/boat-on-water.jpg"
-
 // countries and cities we work with so far ** TEST DATA SO FAR **
 const locations = {
   spain: ["ibiza", "marbella"],
@@ -69,17 +66,17 @@ function Search({ }: Props) {
 
   return (
     <div
-      className="relative px-4 md:w-5/6 md:mx-auto flex flex-col"
+      className="relative px-4 md:w-5/6 md:mx-auto flex flex-col transition-all"
       style={isMediumScreen ? { height: `calc(100svh - ${headerHeight}px)` } : { minHeight: `calc(100svh - ${headerHeight}px)` }}
     >
-      <div className="bg-boat-on-water bg-cover w-full h-full absolute left-0 top-0 -z-10 opacity-70"></div>
+      <div className="md:bg-boat-on-water bg-contain md:bg-cover bg-no-repeat w-full h-full absolute left-0 top-0 -z-10 opacity-50 md:opacity-70 transition-all"></div>
       <div className="h-full md:overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* part 1 - select the country */}
           <div className="md:col-span-2 flex flex-col items-center gap-y-2">
             <h2
-              className={`${selectedCountry && "text-base text-dark-gray"
-                } text-center md:text-left transition-all duration-200`}
+              className={`${selectedCountry && "text-dark-gray"
+                } text-center md:text-left transition-all duration-200 bg-white/70`}
             >
               What country are you going to?
             </h2>
@@ -87,7 +84,7 @@ function Search({ }: Props) {
               {Object.entries(locations).map(([country]) => (
                 <li key={country}>
                   <button
-                    className={`${selectedCountry === country && "bg-dark-gray text-white"
+                    className={`${selectedCountry === country ? "bg-dark-gray text-white" : "bg-white/50"
                       } px-4 py-2 shadow-md rounded-md`}
                     onClick={() => {
                       setSelectedCountry(country);
@@ -105,8 +102,8 @@ function Search({ }: Props) {
           {selectedCountry && (
             <div className="md:col-span-2 flex flex-col items-center gap-y-2">
               <h2
-                className={`${selectedCity && "text-base text-dark-gray"
-                  } text-center md:text-left transition-all duration-200`}
+                className={`${selectedCity && "text-dark-gray"
+                  } text-center md:text-left transition-all duration-200 bg-white/70`}
               >
                 And the city?
               </h2>
@@ -114,7 +111,7 @@ function Search({ }: Props) {
                 {locations[selectedCountry].map((city: string) => (
                   <li key={city}>
                     <button
-                      className={`${selectedCity === city && "bg-dark-gray text-white"
+                      className={`${selectedCity === city ? "bg-dark-gray text-white" : "bg-white/50"
                         } px-4 py-2 shadow-md rounded-md`}
                       onClick={() => setSelectedCity(city)}
                     >
@@ -128,11 +125,11 @@ function Search({ }: Props) {
 
           {/* part 3 - select the date range */}
           {selectedCity && (
-            <div className="md:col-span-4 flex flex-col items-center">
+            <div className="md:col-span-4 flex flex-col items-center gap-y-2">
               {/* <h2 className="text-center md:text-left"> */}
               <h2
-                className={`${(dateSelected[0].startDate && dateSelected[0].endDate ) && "text-base text-dark-gray"
-                  } text-center md:text-left transition-all duration-200`}
+                className={`${(dateSelected[0].startDate && dateSelected[0].endDate ) && "text-dark-gray"
+                  } text-center md:text-left transition-all duration-200 bg-white/70`}
               >
                 What days will you be out there?
               </h2>
