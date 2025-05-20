@@ -76,6 +76,10 @@ function Footer({}: Props) {
             </ul>
           </div>
         </div>
+        <div>
+          <h3>Would you like your event on our platform?</h3>
+          <p>If this is something that you would desire, <Link href="/organiser" className="underline">click here to visit our organiser partner section</Link>.</p>
+        </div>
         <div className="flex justify-end gap-x-4">
           <Link href="#">
             <Image

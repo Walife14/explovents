@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
-export async function login(data: { email: string, password: string }) {
+export async function login(data: { email: string, password: string }, organizer?: boolean) {
     const supabase = createClient()
 
     const { error } = await supabase.auth.signInWithPassword(data)
@@ -12,9 +12,14 @@ export async function login(data: { email: string, password: string }) {
     if (error) {
         throw new Error(error.message)
     }
+    
+    if (!organizer) {
+        revalidatePath('/')
+        redirect('/')
+    } else {
+        redirect('/organiser')
+    }
 
-    revalidatePath('/')
-    redirect('/')
 }
 
 export async function signup(data: { email: string, password: string, confirmPassword: string }) {
