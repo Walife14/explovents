@@ -33,7 +33,6 @@ function Navbar({ }: Props) {
         const fetchUser = async () => {
             const res = await fetch("/api/user", { credentials: "include" })
             const data = await res.json()
-            console.log(data)
             setLoading(true)
 
             if (res.ok) {
