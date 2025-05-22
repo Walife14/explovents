@@ -14,7 +14,7 @@ import woman_with_headphones_graphic from '@/public/images/pages/organiser/perso
 
 type Props = {}
 
-function page({ }: Props) {
+function Login({ }: Props) {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -90,4 +90,4 @@ function page({ }: Props) {
     )
 }
 
-export default page
+export default Login

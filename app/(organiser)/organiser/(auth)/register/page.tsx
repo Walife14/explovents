@@ -12,7 +12,7 @@ import woman_with_headphones_graphic from '@/public/images/pages/organiser/perso
 
 type Props = {}
 
-function page({ }: Props) {
+function Register({ }: Props) {
     const router = useRouter()
     const [formData, setFormData] = useState({
         email: '',
@@ -120,4 +120,4 @@ function page({ }: Props) {
     )
 }
 
-export default page
+export default Register
