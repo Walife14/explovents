@@ -1,7 +1,15 @@
+"use client"
+
 import Link from "next/link";
 
 // fonts
 import { Bowlby_One_SC } from "next/font/google";
+
+// icons
+import { Bars2Icon } from '@heroicons/react/24/solid'
+import { XMarkIcon } from '@heroicons/react/24/solid'
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const bowlby = Bowlby_One_SC({
     subsets: ["latin"],
@@ -11,6 +19,35 @@ const bowlby = Bowlby_One_SC({
 type Props = {};
 
 function Navbar({ }: Props) {
+    const pathname = usePathname()
+    const [navOpen, setNavOpen] = useState<boolean>(false)
+    const [user, setUser] = useState<{ id: string, email: string, role: string } | null>(null)
+    const [loading, setLoading] = useState<boolean>(false)
+
+    useEffect(() => {
+        // every time the url route changes this will re-trigger
+        setNavOpen(false)
+    }, [pathname])
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const res = await fetch("/api/user", { credentials: "include" })
+            const data = await res.json()
+            console.log(data)
+            setLoading(true)
+
+            if (res.ok) {
+                setUser(data)
+                setLoading(false)
+            } else {
+                // handle no user
+                setUser(null)
+                setLoading(false)
+            }
+        }
+
+        fetchUser()
+    }, [])
 
     return (
         <header className="z-50">
@@ -24,16 +61,44 @@ function Navbar({ }: Props) {
                         Explovents
                         <span className="text-lg pl-1 text-[#16397A]">ORGANISER</span>
                     </Link>
-                    {/* <div className="basis-full flex justify-between py-4 font-semibold">
-                        <ul className="flex items-center gap-x-4">
-                            <li>
-                                <Link href="/login">Login</Link>
-                            </li>
-                            <li>
-                                <Link href="/register">Register</Link>
-                            </li>
-                        </ul>
-                    </div> */}
+
+                    <button onClick={() => setNavOpen(true)}>
+                        <Bars2Icon className='size-6 my-4 mx-auto'></Bars2Icon>
+                    </button>
+
+                    {navOpen && (
+                        <div className="absolute right-0 top-0 h-screen min-w-[30vw] bg-gray-200 p-4">
+                            <button onClick={() => setNavOpen(false)}>
+                                <XMarkIcon className='size-6 mx-auto'></XMarkIcon>
+                            </button>
+                            <ul className="flex flex-col items-center gap-y-2 my-4">
+                                {!user ? (
+                                    <>
+                                        <li>
+                                            <Link href="/organiser/login">Login</Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/organiser/login">Register</Link>
+                                        </li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li>
+                                            Welcome back {user.email}!
+                                        </li>
+                                        {user.role === 'organizer' && (
+                                            <li>
+                                                <Link href="/login">Dashboard</Link>
+                                            </li>
+                                        )}
+                                    </>
+                                )}
+                                <li>
+                                    <Link href="#">Frequently Asked Questions (FAQ)</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
                 </div>
             </nav>
         </header>

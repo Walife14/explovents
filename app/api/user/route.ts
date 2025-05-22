@@ -7,6 +7,10 @@ export async function GET() {
     // get the currently signed in user from auth
     const { data: { user }, error } = await supabase.auth.getUser()
 
+    if (!user || error) {
+        return NextResponse.json({ error: "Not Authenticated" }, { status: 401 })
+    }
+
     // get the users profile
     const { data: userProfile, error: profileError } = await supabase
         .from('profiles')
@@ -16,7 +20,12 @@ export async function GET() {
 
     if (profileError) {
         console.log("error getting users profile ", profileError)
+        return NextResponse.json({ error: "Error fetching profile" }, { status: 500 })
     }
 
-    return NextResponse.json(userProfile)
+    return NextResponse.json({
+        id: userProfile.id,
+        email: user.email,
+        role: userProfile.role
+    })
 }

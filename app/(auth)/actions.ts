@@ -13,11 +13,11 @@ export async function login(data: { email: string, password: string }, organizer
         throw new Error(error.message)
     }
     
-    if (!organizer) {
+    if (organizer) {
+        revalidatePath('/organiser')
+    } else {
         revalidatePath('/')
         redirect('/')
-    } else {
-        redirect('/organiser')
     }
 
 }
