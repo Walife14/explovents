@@ -1,33 +1,58 @@
 import React from 'react'
+import Link from 'next/link'
 
-// components
-import LinkBtn from '@/app/components/LinkBtn/LinkBtn'
+// icons
+import { ChartPieIcon } from '@heroicons/react/24/solid'
+import { ListBulletIcon } from '@heroicons/react/24/solid'
+import { PlusIcon } from '@heroicons/react/24/solid'
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid'
 
 type Props = {}
 
-function page({}: Props) {
-  return (
-    <div className='px-4'>
-        <h1>Welcome back, Red Boat Party!</h1>
-        {/* <ul className='my-4 flex flex-col gap-y-4'>
-            <li>
-                <LinkBtn text={'My Events'} href={'dashboard/my-events'}></LinkBtn>
-            </li>
-            <li>
-                <LinkBtn text={'Create Event'} href={'dashboard/create-event'}></LinkBtn>
-            </li>
-            <li>
-                <LinkBtn text={'Financials'} href={'#'} disabled></LinkBtn>
-            </li>
-            <li>
-                <LinkBtn text={'Manage Account'} href={'dashboard/manage-account'}></LinkBtn>
-            </li>
-            <li>
-                <LinkBtn text={'Help/Resources'} href={'dashboard/help'}></LinkBtn>
-            </li>
-        </ul> */}
-    </div>
-  )
+const menuItems = [
+    {
+        href: '/organiser/dashboard/create-event',
+        icon: PlusIcon,
+        label: 'Create Event'
+    },
+    {
+        href: '/organiser/dashboard/my-events',
+        icon: ListBulletIcon,
+        label: 'My Events'
+    },
+    {
+        href: '/organiser/dashboard/financials',
+        icon: ChartPieIcon,
+        label: 'Financials'
+    },
+    {
+        href: '/organiser/dashboard/faq',
+        icon: QuestionMarkCircleIcon,
+        label: 'FAQ'
+    }
+]
+
+function Dashboard({ }: Props) {
+
+
+
+    return (
+        <div className='px-4'>
+            <h1>Welcome back, <span className='text-primary'>Red Boat Party</span>!</h1>
+            <ul className='flex gap-8 mt-4'>
+                {menuItems.map(({ href, icon: Icon, label }) => (
+                    <li key={label}>
+                        <Link href={href}>
+                            <div className="flex flex-col items-center gap-y-2 py-4 px-8 border border-dark-gray rounded-lg">
+                                <Icon className='size-24 fill-dark-gray'></Icon>
+                                <span>{label}</span>
+                            </div>
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
 }
 
-export default page
+export default Dashboard
