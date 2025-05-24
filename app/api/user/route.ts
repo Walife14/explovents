@@ -23,9 +23,26 @@ export async function GET() {
         return NextResponse.json({ error: "Error fetching profile" }, { status: 500 })
     }
 
+    // get users organizer profile if they are an organizer
+    let organizerInfo = null
+    if (userProfile.role === 'organizer') {
+        const { data: organizerData, error: organizerError } = await supabase
+            .from('organizers')
+            .select('*')
+            .eq('id', user.id)
+            .single()
+
+        if (organizerError) {
+            console.error('Organizer fetch error: ', organizerError)
+        } else {
+            organizerInfo = organizerData
+        }
+    }
+
     return NextResponse.json({
         id: userProfile.id,
         email: user.email,
-        role: userProfile.role
+        role: userProfile.role,
+        company_name: organizerInfo?.company_name ?? null
     })
 }
