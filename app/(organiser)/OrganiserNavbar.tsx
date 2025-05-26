@@ -3,18 +3,13 @@
 import Link from "next/link";
 
 // fonts
-import { Bowlby_One_SC } from "next/font/google";
+import { bowlby } from '@/app/fonts'
 
 // icons
 import { Bars2Icon } from '@heroicons/react/24/solid'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-
-const bowlby = Bowlby_One_SC({
-    subsets: ["latin"],
-    weight: "400",
-});
 
 type Props = {};
 
@@ -56,6 +51,7 @@ function Navbar({ }: Props) {
                         href="/organiser"
                         className={`${bowlby.className} text-primary text-3xl`}
                         data-testid="logo"
+                        suppressHydrationWarning
                     >
                         Explovents
                         <span className="text-lg pl-1 text-[#16397A]">ORGANISER</span>
@@ -87,7 +83,7 @@ function Navbar({ }: Props) {
                                         </li>
                                         {user.role === 'organizer' && (
                                             <li>
-                                                <Link href="/login">Dashboard</Link>
+                                                <Link href="/organiser/dashboard">Dashboard</Link>
                                             </li>
                                         )}
                                     </>

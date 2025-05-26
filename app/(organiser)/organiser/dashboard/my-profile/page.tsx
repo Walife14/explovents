@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 type Props = {}
@@ -16,7 +17,6 @@ export default function MyProfile({ }: Props) {
 
             if (res.ok) {
                 setUser(data)
-                console.log(data)
 
                 // if the user is not an organizer -- in the future reroute them to the process to make them an organizer?
                 if (data.role !== 'organizer') {
@@ -52,6 +52,7 @@ export default function MyProfile({ }: Props) {
                 <li>
                     <p>Company name: {user.company_name === null ? "It doesn't seem like you have a company name assigned!" : user.company_name}</p>
                 </li>
+                <Link href="my-profile/edit" className="underline">Edit My Profile</Link>
             </ul>
         </div>
     )
